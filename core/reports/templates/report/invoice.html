@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>INFORME</title>
+  <style>
+    * {
+      color: black;
+    }
+
+    body {
+      font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+      padding: 0;
+      margin: 0;
+      color: black;
+    }
+
+    .name-company {
+      font-size: 30px;
+      padding: 0;
+      margin: 0;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .test {
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    table thead tr th {
+      border: 1px solid black !important;
+      padding: 3px;
+    }
+
+    table tbody tr td {
+      border: 1px solid black;
+      padding: 3px;
+    }
+
+    .img-logo {
+      margin-top: 10px;
+      width: 150px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container-fluid" style="width:70%;">
+    <img src="{% static 'img/NoMasAccidentes.png' %}" class="img-fluid d-block mx-auto img-logo" />
+    </br>
+    </br>
+    <div>
+      <h1 style="text-align: center;"><a href=""> <b>INFORME</b>
+        </a></h1>
+    </div>
+    <br>
+    <p class="text-break text-start">
+      Este informe dara cuenta de las actividades realizadas durante el mes vigente,
+      tambien se evaluara el rendimiento y se sugeriran
+      mejoras si es el caso.
+    </p>
+
+    <h5 class="text-center"><b>Actividades Realizadas</b> </h5>
+
+    {{ r.inf_act | linebreaks }}
+
+    <h5 class="text-center"><b>Actividades Extras</b> </h5>
+
+    {{ r.inf_ext | linebreaks }}
+
+
+    <h5 class="text-center"><b>Sugerencias Mejoras</b> </h5>
+
+    {{ r.mejora | linebreaks }}
+  </div>
+
+  <br><br>
+
+</body>
+
+</html>

@@ -1,0 +1,935 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block head %}
+<script src="{% static 'lib/moment-2.25.3/moment.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/spanish.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/daterangepicker.js' %}"></script>
+<link rel="stylesheet" href="{% static 'lib/daterangepicker-3.1/daterangepicker.css' %}" />
+
+<script src="{% static 'lib/highcharts-8.1.2/highcharts.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/highcharts-3d.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/cylinder.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/highcharts-more.js' %}"></script>
+
+<script src="{% static 'lib/highcharts-8.1.2/modules/pattern-fill.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/themes/high-contrast-light.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- info boxes -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Clientes</span>
+                    <span class="info-box-number"> {{ cant_cli|safe }} </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-boxes"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Actividades</span>
+                    <span class="info-box-number">{{ cant_act|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-tie"></i></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Empleados</span>
+                    <span class="info-box-number">{{ cant_func|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-car-crash"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Accidentes</span>
+                    <span class="info-box-number">{{ cant_acc|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- row -->
+    <!-- <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>Rango de fechas:</label>
+                {{ form.date_range }}
+            </div>
+        </div>
+    </div> -->
+    <hr>
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card card-indigo">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Rendimiento general clientes</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-test" class="card-body"></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Rendimiento general funcionarios</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-test2" class="card-body"></div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ cant_cap | safe }}</h3>
+
+                    <p>Capacitaciones</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{% url 'erp:capacitacion_list' %}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ cant_ase | safe }}</h3>
+                    <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
+
+                    <p>Asesorias</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="{% url 'erp:asesoria_list' %}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-orange">
+                <div class="inner">
+                    <h3>{{ cant_asesp | safe }}</h3>
+
+                    <p>Asesorias Especiales</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="{% url 'erp:asesoriaespecial_list' %}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-dark">
+                <div class="inner">
+                    <h3>{{ cant_vis | safe }}</h3>
+
+                    <p>Visitas</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="{% url 'erp:visita_list' %}" class="small-box-footer">More info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-outline card-danger">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Rendimiento general por meses</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div id="container-2" class="card-body"></div> -->
+                <div id="container-area" class="card-body"></div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <!-- <div class="row">
+        <div class="col-lg-12">
+            <div class="card-outline card-dark">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Rendimiento general por meses tipo area</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-area" class="card-body"></div>
+            </div>
+        </div>
+    </div> -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card card-warning">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Cantidad actividades por fecha
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container" class="card-body"></div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-lg-7">
+                            <button id="plain" class="btn btn-dark btn btn-outline-danger">Plain</button>
+                            <button id="inverted" class="btn btn-dark btn btn-outline-info">Inverted</button>
+                            <button id="polar" class="btn btn-dark btn btn-outline-success">Polar</button>
+                        </div>
+                        <div class="col-lg-5">Rango de fechas: {{ form.date_range }}</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-pink">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Cantidad actividades global</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-donuts" class="card-body"></div>
+            </div>
+        </div>
+    </div>
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-teal">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Comparativa Accidente vs Capacitacion por
+                        meses</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- <div id="container-all" class="card-body"></div> -->
+                <hr>
+                <div id="container-stacked" class="card-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-indigo">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Rendimiento general clientes</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-home" class="card-body"></div>
+            </div>
+        </div>
+    </div> -->
+
+</div>
+
+
+<script>
+//############################################################################## GRAFICOS #######################################################################################
+
+//Probando
+
+
+
+
+
+//GRAFICO DE AREA
+      function getArea(){
+         $.ajax({
+            url: window.location.pathname,
+            data: {
+                'action': 'get_column'
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (request) {
+                if (!request.hasOwnProperty('error')) {
+                    Highcharts.chart('container-area', {
+                    chart: {
+                        type: 'area'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        //text: 'Sources: <a href="https://thebulletin.org/2006/july/global-nuclear-stockpiles-1945-2006">' +
+                        //'thebulletin.org</a> & <a href="https://www.armscontrol.org/factsheets/Nuclearweaponswhohaswhat">' +
+                        //'armscontrol.org</a>'
+                    },
+                    xAxis: {
+                        allowDecimals: false,
+                    categories: [
+                    'Enero',
+                    'Febrero',
+                    'Marzo',
+                    'Abril',
+                    'Mayo',
+                    'Junio',
+                    'Julio',
+                    'Agosto',
+                    'Septiembre',
+                    'Octubre',
+                    'Noviembre',
+                    'Deciembre'
+                    ]
+                    },
+                    yAxis: {
+                        title: {
+                        text: 'Cantidad de actividades'
+                        },
+                        labels: {
+                        formatter: function () {
+                            return this.value ;
+                        }
+                        }
+                    },
+                    tooltip: {
+                        //pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br />warheads in {point.x}',
+                        //headerFormat: '<span style="font-size:10px">{point.key}</span>',
+                        //footerFormat: '<table></table>',
+                            shared: true,
+                           // useHTML: true
+                      },
+                    plotOptions: {
+                        area: {
+                        pointStart: 0,
+                        marker: {
+                            enabled: false,
+                            symbol: 'circle',
+                            radius: 2,
+                            states: {
+                            hover: {
+                                enabled: true
+                            }
+                            }
+                        }
+                        },
+                    },
+                    series: request
+                    });
+                    return false;
+                }
+                message_error(request.error);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                message_error(errorThrown + ' ' + textStatus);
+            }
+        });
+    }
+
+//STACKED BAR
+      function getStacked(){
+         $.ajax({
+            url: window.location.pathname,
+            data: {
+                'action': 'get_stacked'
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (request) {
+                if (!request.hasOwnProperty('error')) {
+                Highcharts.chart('container-stacked', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: null
+                },
+                xAxis: {
+                    categories: ['Enero',
+                    'Febrero',
+                    'Marzo',
+                    'Abril',
+                    'Mayo',
+                    'Junio',
+                    'Julio',
+                    'Agosto',
+                    'Septiembre',
+                    'Octubre',
+                    'Noviembre',
+                    'Diciembre']
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                    text: 'Totales'
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                    stacking: 'normal'
+                    }
+                },
+                series: request
+                });
+                    return false;
+                }
+                message_error(request.error);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                message_error(errorThrown + ' ' + textStatus);
+            }
+        });
+    }
+
+
+//SPLINE
+      function getSpline(){
+         $.ajax({
+            url: window.location.pathname,
+            data: {
+                'action': 'get_spline'
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (request) {
+                if (!request.hasOwnProperty('error')) {
+                    Highcharts.chart('container-all', {
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        //text: 'Source: WorldClimate.com'
+                    },
+                    xAxis: {
+                        categories: [ 'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Septiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre']
+                    },
+                    yAxis: {
+                        title: {
+                        text: 'Cantidades'
+                        },
+                        labels: {
+                        formatter: function () {
+                            return this.value ;
+                        }
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                        marker: {
+                            radius: 4,
+                            lineColor: '#666666',
+                            lineWidth: 1
+                        }
+                        }
+                    },
+                    series: request
+                    });
+                    return false;
+                }
+                message_error(request.error);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                message_error(errorThrown + ' ' + textStatus);
+            }
+        });
+    }
+
+
+//COLUMNA 3D POR MESES
+      function getColumn(){
+         $.ajax({
+            url: window.location.pathname,
+            data: {
+                'action': 'get_column'
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (request) {
+                if (!request.hasOwnProperty('error')) {
+                      Highcharts.chart('container-2', {
+                      chart: {
+                      type: 'cylinder',
+                       options3d: {
+                       enabled: true,
+                       alpha: 15,
+                       beta: 15,
+                       depth: 50,
+                       viewDistance: 25
+                       }
+                      },
+                      title: {
+                        text: null
+                      },
+                      subtitle: {
+                        //text: 'Rendimiento de empresas'
+                      },
+                      xAxis: {
+                      categories: [
+                      'Enero',
+                      'Febrero',
+                      'Marzo',
+                      'Abril',
+                      'Mayo',
+                      'Junio',
+                      'Julio',
+                      'Agosto',
+                      'Septiembre',
+                      'Octubre',
+                      'Noviembre',
+                      'Diciembre'
+                      ],
+                      crosshair: true
+                      },
+                      yAxis: {
+                      min: 0,
+                      title: {
+                        text: 'Cantidad de Actividades'
+                      }
+                      },
+                      tooltip: {
+                        //headerFormat: '<span style="font-size:10px">{point.key}</span><table> ',
+                        //footerFormat: '</table>',
+                            shared: true,
+                            //useHTML: true
+                      },
+                      plotOptions: {
+                          column: {
+                          pointPadding: 0.2,
+                          borderWidth: 0
+                      }
+                    },
+                    series: request
+                    });
+                    return false;
+                }
+                message_error(request.error);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                message_error(errorThrown + ' ' + textStatus);
+            }
+        });
+    }
+
+//DONUTS 3D
+Highcharts.chart('container-donuts', {
+  chart: {
+    type: 'pie',
+    options3d: {
+      enabled: true,
+      alpha: 45
+    }
+  },
+  title: {
+    text: null
+  },
+  subtitle: {
+    //text: '3D donut in Highcharts'
+  },
+  plotOptions: {
+    pie: {
+      innerSize: 100,
+      depth: 45
+    },
+        series: {
+      borderWidth: 0,
+      dataLabels: {
+        enabled: true,
+        format: '<span style="color:{point.color}">{point.name}</span>: {point.percentage:.1f} %'
+      }
+    }
+  },
+  series: [{
+    name: 'Actividades',
+    data: [
+      ['Capacitaciones', {{ cant_cap | safe }}],
+      ['Visitas', {{ cant_vis | safe }}],
+      ['Asesorias', {{ cant_ase | safe }}],
+      ['Asesorias especiales', {{ cant_asesp | safe }}],
+    ]
+  }]
+});
+
+
+//comparacion por funcionarios
+        function getChart2(){
+            $.ajax({
+                url: window.location.pathname,
+                data: {
+                    'action': 'get_chart2'
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (request) {
+                    if (!request.hasOwnProperty('error')) {
+                        Highcharts.chart('container-test2', {
+                        chart: {
+                        type: 'column'
+                        },
+                        title: {
+                            text: null
+                        },
+                        subtitle: {
+                            //text: 'Rendimiento de empresas'
+                        },
+                        xAxis: {
+                            categories: {{ general_funcionario|safe }},
+                            crosshair: true
+                        },
+                        yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Numero de Actividades'
+                        }
+                        },
+                        tooltip: {
+                            //headerFormat: '<span style="font-size:10px">{point.key}</span><table> ',
+                            //footerFormat: '</table>',
+                                shared: true,
+                                //useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                        },
+                        series: request
+                        });
+                        return false;
+                    }
+                    message_error(request.error);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    message_error(errorThrown + ' ' + textStatus);
+                }
+            });
+        }
+
+
+//comparacion por empresas
+        function getChart(){
+            $.ajax({
+                url: window.location.pathname,
+                data: {
+                    'action': 'get_chart'
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (request) {
+                    if (!request.hasOwnProperty('error')) {
+                        Highcharts.chart('container-test', {
+                        chart: {
+                        type: 'column'
+                        },
+                        title: {
+                            text: null
+                        },
+                        subtitle: {
+                            //text: 'Rendimiento de empresas'
+                        },
+                        xAxis: {
+                            categories: {{ general_empresa|safe }},
+                            crosshair: true
+                        },
+                        yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Numero de Actividades'
+                        }
+                        },
+                        tooltip: {
+                            //headerFormat: '<span style="font-size:10px">{point.key}</span><table> ',
+                            //footerFormat: '</table>',
+                                shared: true,
+                                //useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                        },
+                        series: request
+                        });
+                        return false;
+                    }
+                    message_error(request.error);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    message_error(errorThrown + ' ' + textStatus);
+                }
+            });
+        }
+
+    
+
+
+ //comparacion total dinamico
+    const chart = Highcharts.chart('container', {
+    title: {
+    text: null
+    },
+    subtitle: {
+    //text: 'Plain'
+    },
+            plotOptions: {
+            series: {
+            borderWidth: 0,
+            dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+            }
+            }
+            },
+
+            tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> total<br />'
+            },
+    yAxis: {
+    title: {
+    text: 'Cantidad de actividades'
+    }
+    },
+    xAxis: {
+    categories: [
+    'Capacitacion',
+     'Visita',
+      'Asesoria',
+       'Asesoria Especial'
+    ],
+    }
+    });
+
+    document.getElementById('plain').addEventListener('click', () => {
+    chart.update({
+    chart: {
+    inverted: false,
+    polar: false
+    },
+    subtitle: {
+    text: 'Plain'
+    }
+    });
+    });
+
+    document.getElementById('inverted').addEventListener('click', () => {
+    chart.update({
+    chart: {
+    inverted: true,
+    polar: false
+    },
+    subtitle: {
+    text: 'Inverted'
+    }
+    });
+    });
+
+    document.getElementById('polar').addEventListener('click', () => {
+    chart.update({
+    chart: {
+    inverted: false,
+    polar: true
+    },
+    subtitle: {
+    text: 'Polar'
+    }
+    });
+    });
+
+
+
+//############################################################################## FILTRO FECHAS #######################################################################################
+        // FUNCION
+        var date_range = null;
+        var date_now = new moment().format('YYYY-MM-DD');
+
+         // lo que se genera
+         function generate_report() {
+
+         var parameters = {
+         'action': 'search_report',
+         'start_date': date_now,
+         'end_date': date_now,
+         };
+
+
+         if (date_range !== null) {
+         parameters['start_date'] = date_range.startDate.format('YYYY-MM-DD');
+         parameters['end_date'] = date_range.endDate.format('YYYY-MM-DD');
+         }
+
+         //LIMPIAR GRAFICOS
+         var chart = $('#container').highcharts();
+         var seriesLength = chart.series.length;
+         for (var i = seriesLength - 1; i > -1; i--) {
+         chart.series[i].remove();
+         }
+         this.disabled = true;
+
+         //LLAMADA DE DATOS(ACTIVIDAD)
+         $.ajax({
+         url: window.location.pathname, //window.location.pathname
+         type: 'POST',
+         data: parameters,
+         dataType: 'json',
+         }).done(function (data) {
+         if (!data.hasOwnProperty('error')) {
+         chart.addSeries(data);
+         return false;
+         }
+         message_error(data.error);
+         }).fail(function (jqXHR, textStatus, errorThrown) {
+         alert(textStatus + ': ' + errorThrown);
+         }).always(function (data) {
+
+         });
+         
+         }
+
+
+        //DATERANGEPICKER(FILTRO FECHA)
+           $(function () {
+           $('input[name="date_range"]').daterangepicker({
+           locale: {
+           format: 'YYYY-MM-DD',
+           applyLabel: '<i class="fas fa-chart-pie"></i> Aplicar',
+           cancelLabel: '<i class="fas fa-times"></i> Cancelar',
+           }
+           }).on('apply.daterangepicker', function (ev, picker) {
+           date_range = picker;
+           generate_report();
+           }).on('cancel.daterangepicker', function (ev, picker) {
+           $(this).data('daterangepicker').setStartDate(date_now);
+           $(this).data('daterangepicker').setEndDate(date_now);
+           date_range = picker;
+           generate_report();
+           });
+           generate_report();
+           });
+
+
+//############################################################################## LLAMAR FUNCIONES #######################################################################################
+
+$(function(){
+    getChart();
+    getChart2();
+    getColumn();
+    getArea();
+    getSpline();
+    getStacked();
+});
+</script>
+
+{% endblock %}

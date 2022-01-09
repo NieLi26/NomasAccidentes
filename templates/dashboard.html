@@ -1,0 +1,1475 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+
+<script src="{% static 'lib/moment-2.25.3/moment.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/spanish.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/daterangepicker.js' %}"></script>
+<link rel="stylesheet" href="{% static 'lib/daterangepicker-3.1/daterangepicker.css' %}" />
+
+<script src="{% static 'lib/highcharts-8.1.2/highcharts.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/highcharts-3d.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/cylinder.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/highcharts-more.js' %}"></script>
+
+<script src="{% static 'lib/highcharts-8.1.2/themes/high-contrast-light.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/pattern-fill.js' %}"></script>
+
+
+{% endblock %}
+
+{% block content %}
+
+{% for group_for in request.user.groups.all %}
+{% if not group_for.name == 'Cliente' %}
+<div class="container-fluid">
+    <!-- info boxes -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box">
+                <span class="info-box-icon bg-info elevation-1"><i class="fas fa-users"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Clientes</span>
+                    <span class="info-box-number"> {{ cant_cli|safe }} </span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-boxes"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Actividades</span>
+                    <span class="info-box-number">{{ cant_act|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-success elevation-1"><i class="fas fa-user-tie"></i></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Empleados</span>
+                    <span class="info-box-number">{{ cant_func|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box mb-3">
+                <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-car-crash"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Accidentes</span>
+                    <span class="info-box-number">{{ cant_acc|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+
+    <!-- row | Actividades del mes Y fecha-->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card card-indigo">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Actividades realizadas el mes de
+                        {{ mes_actual | safe}}</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-home" class="card-body"></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-warning">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Actividades realizadas por fecha
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container" class="card-body"></div>
+                <div class="card-footer">
+                    <div class="row">
+                        <div class="col-lg-8">
+                            <button id="plain" class="btn btn-dark btn btn-outline-danger">Plain</button>
+                            <button id="inverted" class="btn btn-dark btn btn-outline-info">Inverted</button>
+                            <button id="polar" class="btn btn-dark btn btn-outline-success">Polar</button>
+                        </div>
+                        <div class="col-lg-3.5">Rango de fechas: {{ form.date_range }}</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- row | Accidentes vs Capacitaciones por meses del año-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-outline card-teal">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Comparativa Accidente vs Capacitacion por
+                        meses del año 2021</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-all" class="card-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- row | widgets actividades-->
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ cant_cap | safe }}</h3>
+
+                    <p>Capacitaciones</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-bag"></i>
+                </div>
+                <a href="{% url 'erp:capacitacion_list' %}" class="small-box-footer">Mas info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ cant_ase | safe }}</h3>
+                    <!-- <h3>53<sup style="font-size: 20px">%</sup></h3> -->
+
+                    <p>Asesorias</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-stats-bars"></i>
+                </div>
+                <a href="{% url 'erp:asesoria_list' %}" class="small-box-footer">Mas info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-orange">
+                <div class="inner">
+                    <h3>{{ cant_asesp | safe }}</h3>
+
+                    <p>Asesorias Especiales</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-person-add"></i>
+                </div>
+                <a href="{% url 'erp:asesoriaespecial_list' %}" class="small-box-footer">Mas info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-dark">
+                <div class="inner">
+                    <h3>{{ cant_vis | safe }}</h3>
+
+                    <p>Visitas</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-pie-graph"></i>
+                </div>
+                <a href="{% url 'erp:visita_list' %}" class="small-box-footer">Mas info <i
+                        class="fas fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
+        <!-- ./col -->
+    </div>
+
+    <!-- row | rendimiento general por meses en el año-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-outline card-danger">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Rendimiento general por meses</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-2" class="card-body"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ################################################################### EN ESPERA ########################################################################################### -->
+
+    <!-- row | Actividades totales-->
+    <!-- <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-pink">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Cantidad actividades global</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-donuts" class="card-body"></div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- row | Actividades por meses en año-->
+    <!-- <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-pink">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Cantidad actividades global</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-area" class="card-body"></div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- row | Ultimos pagos y accidentes-->
+    <div class="row">
+        <!-- <div class="col-lg-6">
+            <div class="card card-teal">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Comparativa Accidente vs Capacitacion por
+                        meses</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-stacked" class="card-body"></div>
+            </div>
+        </div> -->
+        <div class="col-lg-6">          
+            <div class="card-outline card-dark">
+                <div class="card-header border-transparent">
+                    <h3 class="card-title">Ultimos Pagos</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0" style="display: block;">
+                    <div class="table-responsive">
+                        <table class="table table-striped" id="pagos">
+                            <thead>
+                                <tr>
+                                    <th>Nro</th>
+                                    <th>Empresa</th>
+                                    <th>Fecha expiracion</th>
+                                    <th>Asunto</th>
+                                    <th>Valor</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <br>
+                <!-- /.card-body -->
+                <a href="/erp/pago/add/" class="btn btn-sm btn-info float-left" target="_blank"><i class="fas fa-plus"></i> Nuevo pago</a>
+                <a href="/erp/pago/list/" class="btn btn-sm btn-secondary float-right" target="_blank"><i class="fas fa-search"></i> Ver todos los pagos</a>
+              </div>
+                <!-- /.card-footer -->
+            </div>
+            <div class="col-lg-6">          
+            <div class="card-outline card-dark">
+                <div class="card-header border-transparent">
+                    <h3 class="card-title">Ultimos accidentes</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0" style="display: block;">
+                    <div class="table-responsive">
+                        <table class="table table-hover s" id="accidentes">
+                            <thead>
+                                <tr>
+                                    <th>Nro</th>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Fecha/hora de aviso</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                               
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.table-responsive -->
+                </div>
+                <br>
+                <!-- /.card-body -->
+                <!-- <a href="/erp/accidente/add/" class="btn btn-sm btn-info float-left" target="_blank"><i class="fas fa-plus"></i> Nuevo pago</a> -->
+                <a href="/erp/accidente/list/" class="btn btn-sm btn-secondary float-right" target="_blank"><i class="fas fa-search"></i> Ver todos los accidentes</a>
+              </div>
+                <!-- /.card-footer -->
+            </div>
+        </div>
+    </div>
+
+    <!-- row | funcionario y clientes-->
+    <!-- <div class="row">
+        <div class="col-lg-6">
+            <div class="card card-indigo">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Rendimiento general clientes</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-test" class="card-body"></div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card card-info">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Rendimiento general funcionarios</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="container-test2" class="card-body"></div>
+            </div>
+        </div>
+    </div> -->
+<br>
+</div>
+<script>
+//############################################################################## GRAFICOS #######################################################################################
+//<------------------------------ LISTADO ---------------------------->
+function getPagos() {
+
+    $('#pagos').DataTable({
+        responsive: true,
+        autoWidth: false,
+        destroy: true,
+        deferRender: true,
+        ajax: {
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'get_pagos'
+            },
+            dataSrc: ""
+        },
+        order: false,
+        paging: false,
+        ordering: false,
+        info: false,
+        searching: false,
+        dom: 'Bfrtip',
+        columns: [
+            {"data": "id"},
+            {"data": "cli.name"},
+            {"data": "fecha_expiracion"},
+            {"data": "asunto"},
+            {"data": "valor"},
+            {"data": "cumplido"},
+        ],
+        columnDefs: [
+             {
+                "targets": [-1],
+                "render": function ( data, type, row, meta ) {
+                if (data == true) {
+                    return '<span class="badge badge-success"> Realizado </span> ';
+                    }
+                else if (data == false) {
+                  return '<span class="badge badge-danger"> Pendiente </span> ';
+                }
+                    return data;
+                },
+            },
+        ],
+        initComplete: function (settings, json) {
+
+        }
+    });
+
+};
+
+
+function getAccidentes() {
+
+    $('#accidentes').DataTable({
+        responsive: true,
+        autoWidth: false,
+        destroy: true,
+        deferRender: true,
+        ajax: {
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'get_accidentes'
+            },
+            dataSrc: ""
+        },
+        order: false,
+        paging: false,
+        ordering: false,
+        info: false,
+        searching: false,
+        dom: 'Bfrtip',
+        columns: [
+            {"data": "id"},
+            {"data": "nombre"},
+            {"data": "correo"},
+            {"data": "fecha_creacion"},
+        ],
+        columnDefs: [
+        ],
+        initComplete: function (settings, json) {
+
+        }
+    });
+
+};
+
+           
+//<------------------------------ HOME ---------------------------->
+//Actividades por fecha
+    const chart = Highcharts.chart('container', {
+    title: {
+    text: null
+    },
+    subtitle: {
+    //text: 'Plain'
+    },
+            plotOptions: {
+            series: {
+            borderWidth: 0,
+            dataLabels: {
+            enabled: true,
+            format: '{point.y:.0f}'
+            }
+            }
+            },
+
+            tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> total<br />'
+            },
+    yAxis: {
+    title: {
+    text: 'Cantidad de actividades'
+    }
+    },
+    xAxis: {
+    categories: [
+    'Capacitacion',
+     'Visita',
+      'Asesoria',
+       'Asesoria Especial'
+    ],
+    }
+    });
+
+    document.getElementById('plain').addEventListener('click', () => {
+    chart.update({
+    chart: {
+    inverted: false,
+    polar: false
+    },
+    subtitle: {
+    text: 'Plain'
+    }
+    });
+    });
+
+    document.getElementById('inverted').addEventListener('click', () => {
+    chart.update({
+    chart: {
+    inverted: true,
+    polar: false
+    },
+    subtitle: {
+    text: 'Inverted'
+    }
+    });
+    });
+
+    document.getElementById('polar').addEventListener('click', () => {
+    chart.update({
+    chart: {
+    inverted: false,
+    polar: true
+    },
+    subtitle: {
+    text: 'Polar'
+    }
+    });
+    });
+
+
+//Actividades por mes actual
+var clrs = Highcharts.getOptions().colors;
+var pieColors = [clrs[2], clrs[0], clrs[3], clrs[1], clrs[4]];
+
+// Get a default pattern, but using the pieColors above.
+// The i-argument refers to which default pattern to use
+function getPattern(i) {
+  return {
+    pattern: Highcharts.merge(Highcharts.patterns[i], {
+      color: pieColors[i]
+    })
+  };
+}
+
+// Get 5 patterns
+var patterns = [0, 1, 2, 3, 4].map(getPattern);
+
+Highcharts.chart('container-home', {
+  chart: {
+    type: 'pie'
+  },
+
+  title: {
+    text: null
+  },
+
+  subtitle: {
+    //text: 'Source: WebAIM. Click on point to visit official website'
+  },
+
+  colors: patterns,
+
+  tooltip: {
+    valueSuffix: '',
+    borderColor: '#8ae'
+  },
+
+  plotOptions: {
+    series: {
+      dataLabels: {
+        enabled: true,
+        connectorColor: '#777',
+        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+      },
+      point: {
+        events: {
+          click: function () {
+            window.location.href = this.website;
+          }
+        }
+      },
+      cursor: 'pointer',
+      borderWidth: 3
+    }
+  },
+
+  series: [{
+    name: 'Actividades',
+    data: [
+    {
+      name: 'Capacitacion',
+      y: Number({{general_cap_mes | safe}}),
+    }, {
+      name: 'Visita',
+      y: Number({{general_v_mes | safe}}),
+    }, {
+      name: 'Asesoria',
+      y: Number({{general_ase_mes | safe}}),
+    }, {
+      name: 'Asesoria Especial',
+      y: Number({{general_asesp_mes | safe}}),
+    }]
+  }],
+
+  responsive: {
+    rules: [{
+      condition: {
+        maxWidth: 500
+      },
+      chartOptions: {
+        plotOptions: {
+          series: {
+            dataLabels: {
+              format: '<b>{point.name}</b>'
+            }
+          }
+        }
+      }
+    }]
+  }
+});
+
+
+
+//GRAFICO DE AREA
+      function getArea(){
+         $.ajax({
+            url: window.location.pathname,
+            data: {
+                'action': 'get_column'
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (request) {
+                if (!request.hasOwnProperty('error')) {
+                    Highcharts.chart('container-area', {
+                    chart: {
+                        type: 'area'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        //text: 'Sources: <a href="https://thebulletin.org/2006/july/global-nuclear-stockpiles-1945-2006">' +
+                        //'thebulletin.org</a> & <a href="https://www.armscontrol.org/factsheets/Nuclearweaponswhohaswhat">' +
+                        //'armscontrol.org</a>'
+                    },
+                    xAxis: {
+                        allowDecimals: false,
+                    categories: [
+                    'Enero',
+                    'Febrero',
+                    'Marzo',
+                    'Abril',
+                    'Mayo',
+                    'Junio',
+                    'Julio',
+                    'Agosto',
+                    'Septiembre',
+                    'Octubre',
+                    'Noviembre',
+                    'Deciembre'
+                    ]
+                    },
+                    yAxis: {
+                        title: {
+                        text: 'Cantidad de actividades'
+                        },
+                        labels: {
+                        formatter: function () {
+                            return this.value ;
+                        }
+                        }
+                    },
+                    tooltip: {
+                        //pointFormat: '{series.name} had stockpiled <b>{point.y:,.0f}</b><br />warheads in {point.x}',
+                        //headerFormat: '<span style="font-size:10px">{point.key}</span>',
+                        //footerFormat: '<table></table>',
+                            shared: true,
+                           // useHTML: true
+                      },
+                    plotOptions: {
+                        area: {
+                        pointStart: 0,
+                        marker: {
+                            enabled: false,
+                            symbol: 'circle',
+                            radius: 2,
+                            states: {
+                            hover: {
+                                enabled: true
+                            }
+                            }
+                        }
+                        },
+                    },
+                    series: request
+                    });
+                    return false;
+                }
+                message_error(request.error);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                message_error(errorThrown + ' ' + textStatus);
+            }
+        });
+    }
+
+//STACKED BAR
+      function getStacked(){
+         $.ajax({
+            url: window.location.pathname,
+            data: {
+                'action': 'get_stacked'
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (request) {
+                if (!request.hasOwnProperty('error')) {
+                Highcharts.chart('container-stacked', {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: null
+                },
+                xAxis: {
+                    categories: ['Enero',
+                    'Febrero',
+                    'Marzo',
+                    'Abril',
+                    'Mayo',
+                    'Junio',
+                    'Julio',
+                    'Agosto',
+                    'Septiembre',
+                    'Octubre',
+                    'Noviembre',
+                    'Diciembre']
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                    text: 'Totales'
+                    }
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    series: {
+                    stacking: 'normal'
+                    }
+                },
+                series: request
+                });
+                    return false;
+                }
+                message_error(request.error);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                message_error(errorThrown + ' ' + textStatus);
+            }
+        });
+    }
+
+
+//SPLINE
+      function getSpline(){
+         $.ajax({
+            url: window.location.pathname,
+            data: {
+                'action': 'get_spline'
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (request) {
+                if (!request.hasOwnProperty('error')) {
+                    Highcharts.chart('container-all', {
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: {
+                        text: null
+                    },
+                    subtitle: {
+                        //text: 'Source: WorldClimate.com'
+                    },
+                    xAxis: {
+                        categories: [ 'Enero',
+                        'Febrero',
+                        'Marzo',
+                        'Abril',
+                        'Mayo',
+                        'Junio',
+                        'Julio',
+                        'Agosto',
+                        'Septiembre',
+                        'Octubre',
+                        'Noviembre',
+                        'Diciembre']
+                    },
+                    yAxis: {
+                        title: {
+                        text: 'Cantidades'
+                        },
+                        labels: {
+                        formatter: function () {
+                            return this.value ;
+                        }
+                        }
+                    },
+                    tooltip: {
+                        crosshairs: true,
+                        shared: true
+                    },
+                    plotOptions: {
+                        spline: {
+                        marker: {
+                            radius: 4,
+                            lineColor: '#666666',
+                            lineWidth: 1
+                        }
+                        }
+                    },
+                    series: request
+                    });
+                    return false;
+                }
+                message_error(request.error);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                message_error(errorThrown + ' ' + textStatus);
+            }
+        });
+    }
+
+
+//COLUMNA 3D POR MESES
+      function getColumn(){
+         $.ajax({
+            url: window.location.pathname,
+            data: {
+                'action': 'get_column'
+            },
+            type: 'POST',
+            dataType: 'json',
+            success: function (request) {
+                if (!request.hasOwnProperty('error')) {
+                      Highcharts.chart('container-2', {
+                      chart: {
+                      type: 'cylinder',
+                       options3d: {
+                       enabled: true,
+                       alpha: 15,
+                       beta: 15,
+                       depth: 50,
+                       viewDistance: 25
+                       }
+                      },
+                      title: {
+                        text: null
+                      },
+                      subtitle: {
+                        //text: 'Rendimiento de empresas'
+                      },
+                      xAxis: {
+                      categories: [
+                      'Enero',
+                      'Febrero',
+                      'Marzo',
+                      'Abril',
+                      'Mayo',
+                      'Junio',
+                      'Julio',
+                      'Agosto',
+                      'Septiembre',
+                      'Octubre',
+                      'Noviembre',
+                      'Diciembre'
+                      ],
+                      crosshair: true
+                      },
+                      yAxis: {
+                      min: 0,
+                      title: {
+                        text: 'Cantidad de Actividades'
+                      }
+                      },
+                      tooltip: {
+                        //headerFormat: '<span style="font-size:10px">{point.key}</span><table> ',
+                        //footerFormat: '</table>',
+                            shared: true,
+                            //useHTML: true
+                      },
+                      plotOptions: {
+                          column: {
+                          pointPadding: 0.2,
+                          borderWidth: 0
+                      }
+                    },
+                    series: request
+                    });
+                    return false;
+                }
+                message_error(request.error);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                message_error(errorThrown + ' ' + textStatus);
+            }
+        });
+    }
+
+//DONUTS 3D(sacarle el function)
+function getDonuts() {
+Highcharts.chart('container-donuts', {
+  chart: {
+    type: 'pie',
+    options3d: {
+      enabled: true,
+      alpha: 45
+    }
+  },
+  title: {
+    text: null
+  },
+  subtitle: {
+    //text: '3D donut in Highcharts'
+  },
+  plotOptions: {
+    pie: {
+      innerSize: 100,
+      depth: 45
+    }
+  },
+  series: [{
+    name: 'Actividades',
+    data: [
+      ['Capacitaciones', {{ cant_cap | safe }}],
+      ['Visitas', {{ cant_vis | safe }}],
+      ['Asesorias', {{ cant_ase | safe }}],
+      ['Asesorias especiales', {{ cant_asesp | safe }}],
+    ]
+  }]
+});
+}
+
+//comparacion por funcionarios
+        function getChart2(){
+            $.ajax({
+                url: window.location.pathname,
+                data: {
+                    'action': 'get_chart2'
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (request) {
+                    if (!request.hasOwnProperty('error')) {
+                        Highcharts.chart('container-test2', {
+                        chart: {
+                        type: 'column'
+                        },
+                        title: {
+                            text: null
+                        },
+                        subtitle: {
+                            //text: 'Rendimiento de empresas'
+                        },
+                        xAxis: {
+                            categories: {{ general_funcionario|safe }},
+                            crosshair: true
+                        },
+                        yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Numero de Actividades'
+                        }
+                        },
+                        tooltip: {
+                            //headerFormat: '<span style="font-size:10px">{point.key}</span><table> ',
+                            //footerFormat: '</table>',
+                                shared: true,
+                                //useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                        },
+                        series: request
+                        });
+                        return false;
+                    }
+                    message_error(request.error);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    message_error(errorThrown + ' ' + textStatus);
+                }
+            });
+        }
+
+
+//comparacion por empresas
+        function getChart(){
+            $.ajax({
+                url: window.location.pathname,
+                data: {
+                    'action': 'get_chart'
+                },
+                type: 'POST',
+                dataType: 'json',
+                success: function (request) {
+                    if (!request.hasOwnProperty('error')) {
+                        Highcharts.chart('container-test', {
+                        chart: {
+                        type: 'column'
+                        },
+                        title: {
+                            text: null
+                        },
+                        subtitle: {
+                            //text: 'Rendimiento de empresas'
+                        },
+                        xAxis: {
+                            categories: {{ general_empresa|safe }},
+                            crosshair: true
+                        },
+                        yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Numero de Actividades'
+                        }
+                        },
+                        tooltip: {
+                            //headerFormat: '<span style="font-size:10px">{point.key}</span><table> ',
+                            //footerFormat: '</table>',
+                                shared: true,
+                                //useHTML: true
+                        },
+                        plotOptions: {
+                            column: {
+                            pointPadding: 0.2,
+                            borderWidth: 0
+                        }
+                        },
+                        series: request
+                        });
+                        return false;
+                    }
+                    message_error(request.error);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    message_error(errorThrown + ' ' + textStatus);
+                }
+            });
+        }
+
+    
+
+
+ 
+//############################################################################## FILTRO FECHAS #######################################################################################
+
+        // FUNCION
+        var date_range = null;
+        var date_now = new moment().format('YYYY-MM-DD');
+
+         // lo que se genera
+         function generate_report() {
+
+         var parameters = {
+         'action': 'search_report',
+         'start_date': date_now,
+         'end_date': date_now,
+         };
+
+
+         if (date_range !== null) {
+         parameters['start_date'] = date_range.startDate.format('YYYY-MM-DD');
+         parameters['end_date'] = date_range.endDate.format('YYYY-MM-DD');
+         }
+
+         //LIMPIAR GRAFICOS
+         var chart = $('#container').highcharts();
+         var seriesLength = chart.series.length;
+         for (var i = seriesLength - 1; i > -1; i--) {
+         chart.series[i].remove();
+         }
+         this.disabled = true;
+
+         //LLAMADA DE DATOS(ACTIVIDAD)
+         $.ajax({
+         url: window.location.pathname, //window.location.pathname
+         type: 'POST',
+         data: parameters,
+         dataType: 'json',
+         }).done(function (data) {
+         if (!data.hasOwnProperty('error')) {
+         chart.addSeries(data);
+         return false;
+         }
+         message_error(data.error);
+         }).fail(function (jqXHR, textStatus, errorThrown) {
+         alert(textStatus + ': ' + errorThrown);
+         }).always(function (data) {
+
+         });
+         
+         }
+
+
+           //DATERANGEPICKER(FILTRO FECHA)
+
+           $(function () {
+           $('input[name="date_range"]').daterangepicker({
+           locale: {
+           format: 'YYYY-MM-DD',
+           applyLabel: '<i class="fas fa-chart-pie"></i> Aplicar',
+           cancelLabel: '<i class="fas fa-times"></i> Cancelar',
+           }
+           }).on('apply.daterangepicker', function (ev, picker) {
+           date_range = picker;
+           generate_report();
+           }).on('cancel.daterangepicker', function (ev, picker) {
+           $(this).data('daterangepicker').setStartDate(date_now);
+           $(this).data('daterangepicker').setEndDate(date_now);
+           date_range = picker;
+           generate_report();
+           });
+           generate_report();
+           });
+
+//############################################################################## LLAMAR FUNCIONES #######################################################################################
+
+
+$(function(){
+    getPagos();
+    getAccidentes();
+    getChart();
+    getChart2();
+    getColumn();
+    //getArea();
+    getSpline();
+    //getStacked();
+});
+
+</script>
+{% else %}
+<div class="container-fluid">
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="card-outline card-primary">
+                <div class="card-header">
+                    <h1 class="text-center"> <strong>Sistema web para la automatización, gestión y control de riesgos de
+                            empresas</strong></h1>
+                    <h4 class="text-center">"NoMasAccidentes"</h4>
+                    <p class="text-center btn-primary">Sú último acceso fue el <b>{{ request.user.last_login }}</b></p>
+                    <hr style="border-top: 1px solid rgb(25, 130, 199)">
+                </div>
+
+                <img src="{% static 'img/Imagen_cliente.png' %}" alt="AdminLTE Logo" class="brand-image " style="background-color:white; height: 600px; width:100%; background-size: cover;" />
+
+                <div class="card-footer text-center">
+                    <div class="row">
+
+                        <div class="col-lg-4">
+                            <strong>Telefóno <i class="fas fa-phone-alt"></i></strong>
+                            <p>(+56) 2 2473 3786</p>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <strong>Email <i class="fas fa-envelope"></i></strong>
+                            <p>nomasaccidentes.21@gmail.com</p>
+                        </div>
+
+                        <div class="col-lg-4">
+                            <strong>Dirección <i class="fas fa-route"></i></strong>
+                            <p>5 Nte. 900-990, Viña del Mar, Valparaíso</p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <!-- <div class="row ">
+        <div class="col-lg-6">
+            <div class="card-outline card-dark">
+                <div class="card-header border-transparent">
+                    <h3 class="card-title"><i class="fas fa-money-check-alt"></i> Ultimos Pagos</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0 " style="display: block;">
+                    <div class="table-responsive">
+                        <table class="table m-0 " id="prueba">
+                            <thead>
+                                <tr>
+                                    <th>Nro</th>
+                                    <th>Empresa</th>
+                                    <th>Fecha expiracion</th>
+                                    <th>Asunto</th>
+                                    <th>Valor</th>
+                                    <th>Estado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card-outline card-teal">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Informacion</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body p-0">
+                    <img src="{% static 'img/info_cliente.jpg' %}" alt="AdminLTE Logo"class="brand-image elevation-3" />
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <br> -->
+    <div class="row ">
+        <div class="col-lg-12">
+            <div class="card-outline card-teal">
+                <div class="card-header">
+                    <h3 class="card-title text-primary"> <img src="{% static 'img/newspaper.png' %}" alt="AdminLTE Logo"
+                            class="brand-image elevation-3" style="height: 20px; width:20px" /> Zona de noticias</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row ">
+                        <div class="col-lg-3 d-flex">
+                            <div class="card">
+                                <img src="//d500.epimg.net/cincodias/imagenes/2021/11/21/companias/1637489520_356632_1637490003_noticia_normal.jpg"
+                                    class="card-img-top" alt="..." style="height: 200px; width:auto;">
+                                <div class="card-body">
+                                    <h3><b>La innovación acelera la evolución de la prevención de los riesgos
+                                            laborales</b> </h3>
+                                    <hr>
+                                    <p>La economía, y con esta el mercado de trabajo, está experimentado en los últimos
+                                        años una marcada evolución, derivada, entre otros aspectos, de la digitalización
+                                        y...</p>
+                                </div>
+                                <div class="card-footer ">
+                                    <a href="https://cincodias.elpais.com/cincodias/2021/11/21/companias/1637489520_356632.html"
+                                        target="_blank" class="btn btn-primary" style="width: 100%;">
+                                        <i class="fas fa-rss-square"></i> Leer más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-flex">
+                            <div class="card">
+                                <img src="https://www.legaltoday.com/wp-content/uploads/practica-juridica/prevencion-riesgos-laborales.jpg"
+                                    class="card-img-top" alt="..." style="height: 200px; width:auto;">
+                                <div class="card-body">
+                                    <h3><b>El envejecimiento de la población trabajadora y su influencia en la
+                                            prevención</b> </h3>
+                                    <hr>
+                                    <p>Es de sobra conocido que la pirámide demográfica en España se ha invertido en los
+                                        últimos años debido, principalmente, al descenso de la natalidad y al incremento
+                                        en años de la esperanza de vida...</p>
+                                </div>
+                                <div class="card-footer ">
+                                    <a href="https://www.legaltoday.com/practica-juridica/derecho-social-laboral/prevencion-riesgos-laborales/el-envejecimiento-de-la-poblacion-trabajadora-y-su-influencia-en-la-prevencion-de-riesgos-laborales-2021-12-07/"
+                                        target="_blank" class="btn btn-primary" style="width: 100%;">
+                                        <i class="fas fa-rss-square"></i> Leer más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-flex">
+                            <div class="card">
+                                <img src="/asset/thumbnail,768,432,center,center//media/diarioalerta/images/2021/12/07/2021120716324177431.jpg"
+                                    class="card-img-top" alt="..." style="height: 200px; width:auto;">
+                                <div class="card-body">
+                                    <h3><b>¿Tienes controlados todos los riesgos laborales de tu empresa?</b>
+                                    </h3>
+                                    <hr>
+                                    <p>Existen agentes químicos, físicos y biológicos que pueden suponer un riesgo para tus trabajadores, así como riesgos ergonómicos y psicosociales que también...</p>
+                                </div>
+                                <div class="card-footer ">
+                                    <a href="https://prevencionar.com/2021/11/30/tienes-controlados-todos-los-riesgos-laborales-de-tu-empresa/"
+                                        target="_blank" class="btn btn-primary" style="width: 100%;">
+                                        <i class="fas fa-rss-square"></i>
+                                        Leer más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 d-flex">
+                            <div class="card">
+                                <img src="https://www.legaltoday.com/wp-content/uploads/actualidad-juridica/cascos-guantes.jpg"
+                                    class="card-img-top" alt="..." style="height: 200px; width:auto;">
+                                <div class="card-body">
+                                    <h3><b>Las mediciones en el ámbito de la prevención de riesgos laborales</b>
+                                    </h3>
+                                    <hr>
+                                    <p>La Seguridad en el Trabajo, la Ergonomía-Psicosociología Aplicada y la Higiene Industrial son disciplinas distintas, aunque complementarias...</p>
+                                </div>
+                                <div class="card-footer ">
+                                    <a href="https://www.legaltoday.com/practica-juridica/derecho-social-laboral/prevencion-riesgos-laborales/las-mediciones-en-el-ambito-de-la-prevencion-de-riesgos-laborales-generalidades-e-implicaciones-juridicas-2021-11-30/"
+                                        target="_blank" class="btn btn-primary" style="width: 100%;">
+                                        <i class="fas fa-rss-square"></i>
+                                        Leer más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function getData() {
+
+    $('#prueba').DataTable({
+        responsive: true,
+        autoWidth: false,
+        destroy: true,
+        deferRender: true,
+        ajax: {
+            url: window.location.pathname,
+            type: 'POST',
+            data: {
+                'action': 'searchdata'
+            },
+            dataSrc: ""
+        },
+        order: false,
+        paging: false,
+        ordering: false,
+        info: false,
+        searching: false,
+        dom: 'Bfrtip',
+        columns: [
+            {"data": "id"},
+            {"data": "cli.name"},
+            {"data": "fecha_expiracion"},
+            {"data": "asunto"},
+            {"data": "valor"},
+            {"data": "cumplido"},
+        ],
+        columnDefs: [
+             {
+                "targets": [-1],
+                "render": function ( data, type, row, meta ) {
+                if (data == true) {
+                    return '<span class="badge badge-success"> Realizado </span> ';
+                    }
+                else if (data == false) {
+                  return '<span class="badge badge-danger"> Pendiente </span> ';
+                }
+                    return data;
+                },
+            },
+        ],
+        initComplete: function (settings, json) {
+
+        }
+    });
+
+};
+
+
+    
+    $(function(){
+    getData();
+    });
+</script>
+{% endif %}
+{% endfor %}
+{% endblock %}
+
+
+

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Contrato</title>
+  <style>
+    * {
+      color: black;
+    }
+
+    body {
+      font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+      padding: 0;
+      margin: 0;
+      color: black;
+    }
+
+    .name-company {
+      font-size: 30px;
+      padding: 0;
+      margin: 0;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .test {
+      justify-content: center;
+      align-items: center;
+    }
+
+      {
+      % comment %
+    }
+
+    table thead tr th {
+      border: 1px solid black !important;
+      padding: 3px;
+    }
+
+    table tbody tr td {
+      border: 1px solid black;
+      padding: 3px;
+    }
+
+      {
+      % endcomment %
+    }
+
+    .img-logo {
+      margin-top: 10px;
+      width: 150px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid">
+    <img src="{% static 'img/NoMasAccidentes.png' %}" class="img-fluid d-block mx-auto img-logo" />
+    </br>
+    </br>
+    {% comment %}
+    <h1 class="name-company">{{ company.name }}</h1>
+    {% endcomment %}
+    {% comment %} <p class="text-center">
+      Cdla. Dager, Calle Rio Zamora entre Av.Tumbes y Av. Tarqui<br />
+      Celular: +593 0979014551<br />
+      Teléfono: 297541221<br />
+      Web: algorisoft.com<br />
+    </p> {% endcomment %}
+    {% comment %} <p>
+      <b>Cliente:</b> {{ cont.emp.name }}<br />
+      <b>Número de cedula:</b> {{ cont.emp.rut }}<br />
+      <b>Fecha Inicio Contrato:</b> {{ cont.fecha_inicio }}<br />
+    </p> {% endcomment %}
+
+    <div class="test">
+      <h1 class="text-center">Contrato</h1>
+      <pre>
+                    Entre <b>Nomasaccidentes</b> sociedad comercial (o persona natural)
+                    legalmente constituida y cuya direccion principal es los dominicos
+                    #627 quien en adelante se denominará CONTRATANTE, representada
+                    legalmente por <b>javier mendoza</b> cuyo rut es <b>11.247.890-k</b>, 
+                    identificado como aparece al pie de su firma, y por otra parte 
+                    <b>{{ cont.emp.name }}</b> (persona natural o jurídica), cuya direccion es
+                    <b>{{ cont.emp.address }}</b> y rut es <b>{{ cont.emp.rut }}</b> quien se identifica como aparece
+                    al pie de su firma y en adelante se denominará CONTRATISTA, 
+                    hemos convenido en celebrar un contrato de prestación de servicios
+                    a la fecha de <b>{{ cont.fecha_inicio }}</b> que se regulará por las
+                    cláusulas que a continuación se expresan y en general por las 
+                    disposiciones del Código Civil y Código de Comercio aplicables a la
+                    materia de que trata este contrato: 
+                    
+                    <b>Primera</b>. Objeto.
+                    El CONTRATANTE, de manera independiente, sin subordinación o
+                    dependencia, utilizando sus propios medios, elementos de trabajo,
+                    personal a su cargo, prestará los servicios de ASESORIA EN PREVENCION
+                    DE RIESGOS.
+                    
+                    <b>Segunda</b>. Término del Contrato. Este Contrato de Prestación de 
+                    Servicios se extenderá por un periodo de 4 semanas a partir de 
+                    la firma de contrato.
+                    
+                    <b>Tercera</b>. Prorroga. Si vencido el plazo establecido para la 
+                    ejecución del contrato de prestación de servicios el CONTRATISTA 
+                    decide ampliar el plazo de vencimiento, se suscribirá minuta 
+                    suscrita por las partes, que hará parte integral de este contrato.
+                    
+                    <b>Cuarta</b>. Nuevo servicio. Si finalizado el objeto del servicio
+                    contratado, el CONTRATISTA necesita un nuevo servicio del CONTRATANTE,
+                    se deberá hacer un nuevo Contrato de Prestación de Servicios y no se 
+                    entenderá como prorroga por desaparecer las causas contractuales 
+                    que dieron origen a este contrato.
+                    
+                    <b>Quinta</b>.Son obligaciones del CONTRATISTA: 1. Obrar con seriedad y
+                    diligencia en el servicio contratado, 2. Atender las solicitudes y 
+                    recomendaciones que haga el CONTRATANTE o sus delegados, con la mayor
+                    prontitud. 3. Permitir que el CONTRATANTE o un delegado haga visitas 
+                    a las instalaciones del CONTRATISTA o el sitio que esté desarrollando
+                    la labor contratada. 4. Cumplir con pagos estipulados dentro de la fecha,
+                    caso contrario, el CONTRATANTE podrá detener actividades pendientes hasta
+                    que el CONTRATISTA demuestre el cumplimiento de esta obligación.
+                    
+                    <b>Sexta</b>.Son obligaciones del CONTRATANTE: 1. Cancelar los pagos fijados
+                    al CONTRATISTA, según la forma que se pacto dentro del término debido. 
+                    2. Entregar toda la información que solicite el CONTRATISTA para poder 
+                    desarrollar con normalidad su labor independiente.
+                    
+                    <b>Septima</b>. Terminación anticipada o anormal. – Incumplir las obligaciones
+                    propias de cada una de las partes, dará lugar a la otra para terminar 
+                    unilateralmente el Contrato de Prestación de Servicio.
+
+                    
+                    _____________________                                 _____________________
+            
+                    Firma del Contratante                                 Firma del Contratista
+          </pre>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,336 @@
+{% load static %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- <a href="{% url 'erp:dashboard' %}" class="brand-link" style="background-color:#007bff;">
+    <img src="{% static 'img/NoMasAccidentes.png' %}" alt="AdminLTE Logo" class="brand-image elevation-3"
+      style="opacity: 0.8; background-color:white;" />
+      <span>&nbsp;</span>
+  </a> -->
+  <a href="{% url 'erp:dashboard' %}" class="brand-link">
+    <img src="{% static 'img/NoMasAccidentes.png' %}" alt="AdminLTE Logo" class="brand-image elevation-3"
+      style="opacity: 0.8; background-color:white;" />
+    <span>&nbsp;</span>
+  </a>
+  <br />
+  <div class="sidebar">
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="{{ request.user.get_image }}" class="img-circle" alt="User Image" />
+      </div>
+      <div class="info">
+        <a href="#" class="d-block">{{ request.user.username }}</a>
+      </div>
+    </div>
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <li class="nav-header">Mantenimientos</li>
+
+        <!-- ACTIVIDADES -->
+        {% if perms.erp.add_capacitacion %}
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-boxes"></i>
+            <p>
+              Actividades
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none">
+            <!-- CAPACITACIONES -->
+            <li class="nav-item ">
+              <a href="{% url 'erp:capacitacion_list' %}" class="nav-link">
+                <i class="nav-icon fas fas fa-archive"></i>
+                <p>Capacitacion</p>
+              </a>
+            </li>
+            <!-- ASESORIAS -->
+            <li class="nav-item">
+              <a href="#" class="nav-link ">
+                <i class="nav-icon fas fas fa-archive"></i>
+                <p>
+                  Asesoria
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview" style="display: none">
+                <!-- NORMAL -->
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon far fa-folder"></i>
+                    <p>
+                      Normal
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview" style="display: none">
+                    <li class="nav-item">
+                      <a href="{% url 'erp:asesoria_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Ingresar</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <!-- ESPECIAL -->
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-folder"></i>
+                    <p>
+                      Especial
+                      <i class="right fas fa-angle-left"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview" style="display: none">
+                    <li class="nav-item">
+                      <a href="{% url 'erp:asesoriaespecial_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-file-alt"></i>
+                        <p>Ingresar</p>
+                      </a>
+                    </li>
+                    <!-- CASOS -->
+                    <li class="nav-item">
+                      <a href="{% url 'erp:caso_list' %}" class="nav-link">
+                        <i class="nav-icon fas fa-balance-scale-right"></i>
+                        <p>Casos</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <!-- VISITAS -->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fas fa-archive"></i>
+                <p>
+                  Visitas
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview" style="display: none">
+                <li class="nav-item">
+                  <a href="{% url 'erp:visita_list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-file-alt"></i>
+                    <p>Ingresar</p>
+                  </a>
+                </li>
+                <!-- CHECKLIST -->
+                <li class="nav-item">
+                  <a href="{% url 'erp:checklist_list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-tasks"></i>
+                    <p>CheckList</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+
+          </ul>
+        </li>
+        {% else %}
+        <!--##### ACTIVIDADES #####-->
+        <!-- CAPACITACIONES -->
+        <li class="nav-item">
+          <a href="{% url 'erp:infcliente_capacitacion_list' %}" class="nav-link">
+            <i class="nav-icon fas fas fa-archive"></i>
+            <p>Capacitacion</p>
+          </a>
+        </li>
+        <!-- ASESORIAS -->
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fas fa-archive"></i>
+            <p>
+              Asesoria
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none">
+            <!-- NORMAL -->
+            <li class="nav-item">
+              <a href="#" class="nav-link ">
+                <i class="nav-icon far fa-folder"></i>
+                <p>
+                  Normal
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview" style="display: none">
+                <li class="nav-item">
+                  <a href="{% url 'erp:infcliente_asesoria_list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-file-alt"></i>
+                    <p>Ver</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <!-- ESPECIAL -->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-folder"></i>
+                <p>
+                  Especial
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview" style="display: none">
+                <li class="nav-item">
+                  <a href="{% url 'erp:infcliente_asesoriaespecial_list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-file-alt"></i>
+                    <p>Ver</p>
+                  </a>
+                </li>
+                <!-- CASOS -->
+                <li class="nav-item">
+                  <a href="{% url 'erp:infcliente_caso_list' %}" class="nav-link">
+                    <i class="nav-icon fas fa-balance-scale-right"></i>
+                    <p>Casos</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <!-- VISITAS -->
+        <li class="nav-item ">
+          <a href="#" class="nav-link ">
+            <i class="nav-icon fas fas fa-archive"></i>
+            <p>
+              Visitas
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none">
+            <li class="nav-item">
+              <a href="{% url 'erp:infcliente_visita_list' %}" class="nav-link">
+                <i class="nav-icon fas fa-file-alt"></i>
+                <p>Ver</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{% url 'erp:infcliente_resultadovisita_list' %}" class="nav-link">
+                <i class="nav-icon far fa-file-alt"></i>
+                <p>Informe</p>
+              </a>
+            </li>
+          </ul>
+        </li>
+
+        {% endif %}
+
+
+        <!-- CONTRATO -->
+        {% if perms.erp.view_contrato %}
+        <li class="nav-item">
+          <a href="{% url 'erp:contrato_list' %}" class="nav-link">
+            <i class="nav-icon fas fa-file-contract"></i>
+            <p>Contratos</p>
+          </a>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a href="{% url 'erp:infcliente_contrato_list' %}" class="nav-link">
+            <i class="nav-icon fas fa-file-contract"></i>
+            <p>Contratos</p>
+          </a>
+        </li>
+        {% endif %}
+
+        <!-- PERFILES -->
+        {% if perms.erp.view_empresa %}
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-user-circle"></i>
+            <p>
+              Perfiles
+              <i class="right fas fa-angle-left"></i>
+            </p>
+          </a>
+          <ul class="nav nav-treeview" style="display: none">
+
+            <li class="nav-item">
+              <a href="{% url 'erp:empresa_list' %}" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>Clientes</p>
+              </a>
+            </li>
+            {% if perms.erp.view_funcionario %}
+            <li class="nav-item">
+              <a href="{% url 'erp:funcionario_list' %}" class="nav-link">
+                <i class="nav-icon fas fa-user-tie"></i>
+                <p>Funcionarios</p>
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+        </li>
+        {% endif %}
+
+        <!-- REPORTE -->
+        {% if perms.erp.delete_empresa %}
+        <li class="nav-item">
+          <a href="{% url 'reports:report_dashboard_empresa' %}" class="nav-link">
+            <i class="nav-icon fas fa-chart-bar"></i>
+            <p>Reporte</p>
+          </a>
+        </li>
+        {% endif %}
+
+        <!-- USUARIOS -->
+        {% if perms.user.view_user%}
+        <li class="nav-item">
+          <a href="{% url 'user:user_list' %}" class="nav-link">
+            <i class="nav-icon fas fa-user-friends"></i>
+            <p>Usuarios</p>
+          </a>
+        </li>
+        {% endif %}
+
+        <!-- ######################################PRUEBAS############################################# -->
+
+
+
+        {% if perms.erp.view_pago %}
+        <!-- PAGOS -->
+        <li class="nav-item">
+          <a href="{% url 'erp:pago_list' %}" class="nav-link">
+            <i class="nav-icon fas fa-money-check-alt"></i>
+            <p>Pago</p>
+          </a>
+        </li>
+        {% else %}
+        <!-- ######PAGOS###### -->
+        <li class="nav-item">
+          <a href="{% url 'erp:infcliente_pago_list' %}" class="nav-link">
+            <i class="nav-icon fas fa-money-check-alt"></i>
+            <p>Pago</p>
+          </a>
+        </li>
+        {% endif %}
+
+        {% if perms.erp.view_accidente %}
+        <!--LISTAR ACCIDENTES -->
+        <li class="nav-item">
+          <a href="{% url 'erp:accidente_list' %}" class="nav-link">
+            <i class="nav-icon fas fa-car-crash"></i>
+            <p>Accidente</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'erp:contacto_list' %}" class="nav-link">
+            <i class="nav-icon fas fa-envelope"></i>
+            <p>Contacto</p>
+          </a>
+        </li>
+        {% else %}
+        <!-- AVISO ACCIDENTES -->
+        <li class="nav-item">
+          <a href="{% url 'erp:accidente_create' %}" class="nav-link">
+            <i class="nav-icon fas fa-exclamation"></i>
+            <p>Alertar Accidente</p>
+          </a>
+        </li>
+        {% endif %}
+
+      </ul>
+    </nav>
+  </div>
+</aside>

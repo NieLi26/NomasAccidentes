@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>INFORME</title>
+    <style>
+        * {
+            color: black;
+        }
+
+        body {
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            color: black;
+        }
+
+        .name-company {
+            font-size: 30px;
+            padding: 0;
+            margin: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .test {
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        table thead tr th {
+            border: 1px solid black !important;
+            padding: 3px;
+        }
+
+        table tbody tr td {
+            border: 1px solid black;
+            padding: 3px;
+        }
+
+        .img-logo {
+            margin-top: 10px;
+            width: 150px;
+            height: 60px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid" style="width:70%;">
+        <img src="{% static 'img/NoMasAccidentes.png' %}" class="img-fluid d-block mx-auto img-logo" />
+        </br>
+        </br>
+        <div>
+            <h1 style="text-align: center;"><a href=""> <b>PLANIFICACION</b>
+                </a></h1>
+        </div>
+        <br>
+        <p class="text-break text-start">
+            {{v.plan|linebreaks}}
+        </p>
+
+        <h5 class="text-center"><b>Extras</b> </h5>
+
+        <p class="text-break text-start">
+            <ul style="list-style-type:upper-roman">
+                <li>La fecha de realizacion sera el {{v.fecha_realizacion}}</li>
+                <li>El horario sera dentro de {{v.horario}}</li>
+                <li>El encargado de realizarla sera {{v.func.names}}</li>
+            </ul>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Factura Print</title>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/plugins/font-awesome-5.11.1/css/all.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.4/css/adminlte.min.css' %}">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- jQuery -->
+    <script src="{% static 'lib/adminlte-3.0.4/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'lib/adminlte-3.0.4/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'lib/adminlte-3.0.4/js/adminlte.min.js' %}"></script>
+    <!-- Sweetalert2 -->
+    <script src="{% static 'lib/sweetalert2-9.10.0/sweetalert2.all.min.js' %}"></script>
+    <!-- Jquery Confirm -->
+    <link rel="stylesheet" href="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.css' %}">
+    <script src="{% static 'lib/jquery-confirm-v3.3.4/jquery-confirm.min.js' %}"></script>
+    <!-- My css -->
+    <link rel="stylesheet" href="{% static 'css/mystyle.css' %}">
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- Main content -->
+        <section class="invoice">
+            <!-- title row -->
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="page-header">
+                        <i class="fas fa-globe"></i> No mas Accidenes, Inc.
+                    </h2>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- info row -->
+            <div class="row invoice-info">
+                <!-- /.col -->
+                <div class="col-sm-4 invoice-col">
+                    <span style="font-size: 14px;">{{ mensaje }} <b>{{ fecha }}</b></span>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <br>
+            <div class="row">
+                <!-- accepted payments column -->
+                <div class="col-6">
+                    <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+                        <span style="font-size: 14px;"><b>{{ desc }}</b></span>
+                    </p>
+                </div>
+            </div>
+            <br>
+            <!-- Table row -->
+            <div class="row" style="text-align: left;">
+                <div class="col-12 table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">Asunto</th>
+                                <th scope="col">Fecha de expiracion</th>
+                                <th scope="col">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ asunto }}</td>
+                                <td>{{ fecha }}</td>
+                                <td>${{ valor }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+
+</body>
+
+</html>

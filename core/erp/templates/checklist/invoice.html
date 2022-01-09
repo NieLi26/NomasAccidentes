@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>CheckList</title>
+  <style>
+    * {
+      color: black;
+    }
+
+    body {
+      font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+      padding: 0;
+      margin: 0;
+      color: black;
+    }
+
+    .name-company {
+      font-size: 30px;
+      padding: 0;
+      margin: 0;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    .test {
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    table thead tr th {
+      border: 1px solid black !important;
+      padding: 3px;
+    }
+
+    table tbody tr td {
+      border: 1px solid black;
+      padding: 3px;
+    }
+
+    .img-logo {
+      margin-top: 10px;
+      width: 150px;
+      height: 60px;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container-fluid" style="width:70%;">
+    <img src="{% static 'img/NoMasAccidentes.png' %}" class="img-fluid d-block mx-auto img-logo" />
+    </br>
+    </br>
+    <div>
+      <h1 style="text-align: center;"><a href="">{{ ch.cli.name }}
+        </a></h1>
+    </div>
+    <table class="table table-bordered border-primary" style="font-size: x-large">
+      <thead>
+        <tr>
+          <th scope="col" style="width:3%; text-align:center;">#</th>
+          <th scope="col" >Requerimientos</th>
+          <th scope="col" style="width:8%"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>
+            {{ ch.primera }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>
+            {{ ch.segunda }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>
+            {{ ch.tercera }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">4</th>
+          <td>
+            {{ ch.cuarta }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">5</th>
+          <td>
+            {{ ch.quinta }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">6</th>
+          <td>
+            {{ ch.sexta }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">7</th>
+          <td>
+            {{ ch.septima }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">8</th>
+          <td>
+            {{ ch.octaba }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">9</th>
+          <td>
+            {{ ch.novena }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">10</th>
+          <td>
+            {{ ch.decima }}
+          </td>
+          <td>
+            <img src="{% static 'img/checkbox.png' %}" alt="">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+
+</html>

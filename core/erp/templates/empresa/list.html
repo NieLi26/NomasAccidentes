@@ -1,0 +1,70 @@
+{% extends 'list.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block head_list %}
+    <script src="{% static 'empresa/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+    <tr>
+        <th scope="col" style="width: 10%;">Nro</th>
+        <th scope="col" style="width: 10%;">Nombre</th>
+        <th scope="col" style="width: 10%;">Rubro</th>
+        <th scope="col" style="width: 15%;">Rut</th>
+        <th scope="col" style="width: 20%;">Direccion</th>
+        <th scope="col" style="width: 15%;">Telefono</th>
+        <th scope="col" style="width: 20%;">Opciones</th>
+    </tr>
+{% endblock %}
+            {% block buttons_list %}
+            {% if perms.erp.add_empresa %}
+                <a href="{{ create_url }}" class="btn btn-primary btn-flat btnTest">
+                    <i class="fas fa-plus"></i> Nuevo registro
+                </a>
+            {% endif %}
+                <a href="{{ list_url }}" class="btn btn-success btn-flat">
+                    <i class="fas fa-sync"></i> Actualizar
+                </a>
+            {% endblock %}
+{% block javascript %}
+<!-- Modal -->
+<div class="modal fade" id="myModalPago" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <form method="post" action="." enctype="multipart/form-data">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <b><i class="fas fa-search"></i> <span></span></b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-bordered" id="tblDet">
+                        <thead>
+                            <tr>
+                                <th>Nro</th>
+                                <th>Fecha_expiracion</th>
+                                <th>asunto</th>
+                                <th>valor</th>
+                                <th>cumplido</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                    
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal"><i
+                            class="fas fa-times"></i> Cerrar</button>
+                    <!-- <button type="submit" class="btn btn-primary btn-flat btn-block"><i class="fas fa-save"></i>
+                        Guardar</button> -->
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

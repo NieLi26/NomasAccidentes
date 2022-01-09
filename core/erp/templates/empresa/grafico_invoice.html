@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>GRAFICOS</title>
+<script src="{% static 'lib/highcharts-8.1.2/highcharts.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/exporting.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/export-data.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/accessibility.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/data.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/drilldown.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/highcharts-more.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/highcharts-3d.js' %}"></script>
+<script src="{% static 'lib/highcharts-8.1.2/modules/cylinder.js' %}"></script>
+
+<script src="{% static 'lib/highcharts-8.1.2/themes/high-contrast-light.js' %}"></script>
+</head>
+
+<body>
+ <div class="container-fluid">
+         <!-- info boxes -->
+    <div class="row">
+        <div class="col-12 col-sm-6 col-md-3 ">
+            <div class="info-box bg-warning">
+                <span class="info-box-icon  elevation-1"><i class="fas fa-archive"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">Capacitaciones</span>
+                    <span class="info-box-number"> {{ cant_cap | safe }}</span>
+                </div>
+
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box bg-info">
+                <span class="info-box-icon elevation-1"><i class="fas fa-archive"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Visitas</span>
+                    <span class="info-box-number">{{ cant_vis|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+
+        <!-- fix for small devices only -->
+        <div class="clearfix hidden-md-up"></div>
+
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box bg-success">
+                <span class="info-box-icon elevation-1"><i class="fas fa-archive"></i></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Asesorias</span>
+                    <span class="info-box-number">{{ cant_ase|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+        <div class="col-12 col-sm-6 col-md-3">
+            <div class="info-box bg-danger">
+                <span class="info-box-icon elevation-1"><i class="fas fa-archive"></i></span>
+
+                <div class="info-box-content">
+                    <span class="info-box-text">Asesorias Especiales</span>
+                    <span class="info-box-number">{{ cant_asesp|safe }}</span>
+                </div>
+                <!-- /.info-box-content -->
+            </div>
+            <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-lg-1.5">
+            <div class="form-group">
+                <label>Rango de fechas:</label>
+                {{ form.date_range }}
+            </div>
+        </div>
+    </div>
+    <hr>
+    <!-- row | Actividades del mes Y fecha-->
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-warning">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Actividades realizadas el mes de
+                        {{ mes_actual | safe}} </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <h1 class="text-center">Totales <b class="text-gray">{{ cant_act_mes | safe }}</b></h1>
+  
+                          <div class="card-body p-0" style="display: block;">
+                        <div class="table-responsive">
+                            <table class="table table-striped" id="pagos">
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Cantidad</th>
+                                    </tr>
+                                </thead>
+                                <tbody >
+                                    <tr>
+                                        <td>Capacitaciones</td>
+                                        <td class=" text-center ">{{ general_cap_mes | safe }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Visitas</td>
+                                        <td class="text-center ">{{ general_v_mes | safe }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Asesorias</td>
+                                        <td class="text-center " >{{ general_ase_mes | safe }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Asesorias Especiales</td>
+                                        <td class="text-center " >{{ general_asesp_mes | safe }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.table-responsive -->
+                    </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div id="container-3d" class="card-body"></div>
+                    </div>
+                </div>
+                <hr>
+                   <div id="container-test" class="card-body"></div>
+          
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card card-blue">
+                <div class="card-header">
+                    <h3 class="card-title"><i class="fas fa-chart-pie"></i> Accidentes v/s capacitaciones en el mes de
+                        {{ mes_actual | safe}}
+                    </h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                <div class="col-lg-5"> <div id="container-donuts" class="card-body"></div></div>
+                <div class="col-lg-2" style="text-align:center; margin-top:200px;">
+                  <span class="badge badge-info">Capacitaciones: <B>{{general_cap_mes}}</B></span>
+                  <br>
+                   <span class="badge badge-dark">Accidentes: <B>{{general_acc_mes}}</B></span>
+                </div>
+                <div class="col-lg-5"> <div id="container-3d2" class="card-body"></div></div>
+              </div>
+                
+            </div>
+        </div>
+    </div>
+ </div>
+</body>
+<script>
+    // GRAFICO BAR CAP/ACC
+// Create the chart
+Highcharts.chart('container-3d2', {
+  chart: {
+    type: 'bar'
+  },
+  title: {
+    text: null
+  },
+  subtitle: {
+    //text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+  },
+  accessibility: {
+    announceNewData: {
+      enabled: true
+    }
+  },
+    xAxis: {
+    categories: [
+    'Capacitaciones',
+    'Accidentes',
+    ],
+    },
+    yAxis: {
+    title: {
+    text: 'Cantidad de actividades'
+    }
+    },
+  legend: {
+    enabled: false
+  },
+  plotOptions: {
+    series: {
+      borderWidth: 0,
+      dataLabels: {
+        enabled: true,
+        format: '{point.y:.0f}'
+      }
+    }
+  },
+
+  tooltip: {
+    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> total<br />'
+  },
+
+  series: [
+    {
+      name: "Actividades",
+      colorByPoint: true,
+      data: [
+        {
+          name: "Capacitaciones",
+          y: Number({{general_cap_mes | safe}}),
+          
+        },
+        {
+          name: "Accidentes",
+          y: Number({{general_acc_mes | safe}}),
+         
+        }
+      ]
+    }
+  ]
+});
+
+
+// GRAFICO COLUMN ACTIVIDADES
+// Create the chart
+Highcharts.chart('container-3d', {
+  chart: {
+    type: 'column'
+  },
+  title: {
+    text: null
+  },
+  subtitle: {
+    //text: 'Click the columns to view versions. Source: <a href="http://statcounter.com" target="_blank">statcounter.com</a>'
+  },
+  accessibility: {
+    announceNewData: {
+      enabled: true
+    }
+  },
+    xAxis: {
+    categories: [
+    'Capacitaciones',
+    'Visitas',
+    'Asesorias',
+    'Asesorias Especiales'
+    ],
+    },
+    yAxis: {
+    title: {
+    text: 'Cantidad de actividades'
+    }
+    },
+  legend: {
+    enabled: false
+  },
+  plotOptions: {
+    series: {
+      borderWidth: 0,
+      dataLabels: {
+        enabled: true,
+        format: '{point.y:.0f}'
+      }
+    }
+  },
+
+  tooltip: {
+    headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> total<br />'
+  },
+
+  series: [
+    {
+      name: "Actividades",
+      colorByPoint: true,
+      data: [
+        {
+          name: "Capacitaciones",
+          y: Number({{general_cap_mes | safe}}),
+        },
+        {
+          name: "Visitas",
+          y: Number({{general_v_mes | safe}}),
+        },
+        {
+          name: "Asesorias",
+          y: Number({{general_ase_mes | safe}}),
+        },
+        {
+        name: "Asesorias Especiales",
+        y: Number({{general_asesp_mes | safe}}),
+        }
+      ]
+    }
+  ]
+});
+
+//GRAFICO DONUTS
+Highcharts.chart('container-donuts', {
+  chart: {
+    type: 'pie',
+    options3d: {
+      enabled: true,
+      alpha: 45
+    }
+  },
+  title: {
+    text: null
+  },
+  subtitle: {
+    //text: '3D donut in Highcharts'
+  },
+  plotOptions: {
+    pie: {
+      innerSize: 100,
+      depth: 45
+    },
+        series: {
+      borderWidth: 0,
+      dataLabels: {
+        enabled: true,
+        format: '<span style="color:{point.color}">{point.name}</span>: {point.percentage:.1f} %'
+      }
+    }
+  },
+  series: [{
+    name: 'Actividades',
+    data: [
+      ['Capacitaciones', Number({{ general_cap_mes | safe }})],
+      ['Accidentes', Number({{ general_acc_mes | safe }})],
+    ]
+  }]
+});
+
+
+//GRAFICO DE PIE GRADIENT
+
+// Build the chart
+Highcharts.chart('container-test', {
+  chart: {
+    plotBackgroundColor: null,
+    plotBorderWidth: null,
+    plotShadow: false,
+    type: 'pie'
+  },
+  title: {
+    text: null
+  },
+  tooltip: {
+    pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.0f}</b> total<br />'
+  },
+  accessibility: {
+    point: {
+      valueSuffix: '%'
+    }
+  },
+  plotOptions: {
+    pie: {
+      allowPointSelect: true,
+      cursor: 'pointer',
+      dataLabels: {
+        enabled: true,
+        format: '<b>{point.name}</b><br>{point.percentage:.1f} %',
+        distance: -50,
+        filter: {
+          property: 'percentage',
+          operator: '>',
+          value: 4
+        }
+      }
+    }
+  },
+  series: [{
+    name: 'Share',
+    data: [
+      { name: 'Capacitaciones', y: Number({{general_cap_mes | safe}}) },
+      { name: 'Visitas', y: Number({{general_v_mes | safe}}) },
+      { name: 'Asesorias', y: Number({{general_ase_mes | safe}}) },
+      { name: 'Asesorias Especiales', y: Number({{general_asesp_mes | safe}}) }
+    ]
+  }]
+});
+
+        window.addEventListener("load", window.print());
+
+
+</script>
+</html>
