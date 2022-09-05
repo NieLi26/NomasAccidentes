@@ -1,0 +1,68 @@
+{% extends 'list.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block head_list %}
+<script src="{% static 'recepcion/reserva/js/list_plan.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 10%;">Nro</th>
+    <th scope="col" style="width: 10%;">Patente</th>
+    <th scope="col" style="width: 10%;">Estacionamiento</th>
+    <th scope="col" style="width: 10%;">Tarifa</th>
+    <th scope="col" style="width: 10%;">Fecha de Inicio</th>
+    <th scope="col" style="width: 10%;">Fecha de Termino</th>
+    <th scope="col" style="width: 10%;">Total</th>
+    <th scope="col" style="width: 10%;">Estado de plan</th>
+    <th scope="col" style="width: 10%;">Opciones</th>
+</tr>
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+
+{% block buttons_list %}
+<a href="{{ list_url }}" class="btn btn-success btn-flat">
+    <i class="fas fa-sync"></i> Actualizar
+</a>
+{% endblock %}
+
+{% block javascript %}
+<div class="modal fade" id="myModalPlan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <form method="post" action="." enctype="multipart/form-data">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <b><i class="fas fa-search"></i> <span></span></b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body ">
+                    <div class="container-fluid">
+                        {% for field in formPlan.visible_fields %}
+                         <div class="form-group">
+                             <label for="">{{ field.label }}</label>
+                             {{ field|add_class:"form-control"|attr:"autocomplete:off" | append_attr:"readonly:readonly"  }}
+                         </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger btn-flat" data-dismiss="modal"><i
+                            class="fas fa-times"></i> Cerrar</button>
+                    {% if request.session.group.name == 'Administrador' or request.user.is_superuser %}
+                    <button type="button" class="btn btn-primary btn-flat btnTerminarPlan" ><i class="fas fa-check"></i>
+                        Finalizar</button>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,198 @@
+{% extends 'form.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block head_form %}
+<!-- para el autocomoplete -->
+<link href="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/jquery-ui-1.12.1/jquery-ui.min.js' %}"></script>
+
+<!-- buscador de datos en select(se puede usar autocomplete, y otras cosas) -->
+<link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
+<link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
+<script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
+<script src="{% static 'lib/select2-4.0.13/js/i18n/es.js' %}"></script>
+
+<!-- para usar calendario en fechas -->
+<script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
+<script src="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.js' %}"></script>
+<link href="{% static 'lib/tempusdominus-bootstrap-4/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
+
+<!-- para configuraciones de los plugins usados -->
+<script src="{% static 'recepcion/reserva/js/form_plan.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<form action="." id="frmReserva" enctype="multipart/form-data">
+    <div class="card">
+        <div class="card-header">
+            <h5 >
+                {% if action == "add" %}
+                <i class="fas fa-plus"></i>
+                {% else %}
+                <i class="fas fa-edit"></i>
+                {% endif %}
+                <strong>{{ title }}</strong>
+            </h5>
+        </div>
+        <div class="card-body">
+            <input type="hidden" name="action" value="{{ action }}">
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h5><i class="icon fas fa-ban"></i> Ha ocurrido un error al guardar el registro!</h5>
+                <ul>
+                    {% for field in form %}
+                    {% for error in field.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                    {% endfor%}
+                </ul>
+            </div>
+            {% endif %}
+            <!-- Detalle Reserva -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-outline card-purple">
+                        <div class="card-header">
+                            <h3 class="card-title text-purple"><i class="fas fa-book"></i> <b>Detalle de Reserva</b></h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label>Cliente:</label>
+                                                <div class="input-group">
+                                                    {{ form.cliente }}
+                                                    <button class="btn btn-success btn-flat btnAddCliente" type="button">
+                                                        <i class="fas fa-user-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {{ form.estacionamiento }}
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>patente:</label>
+                                                {{ form.patente|attr:"autocomplete:off"}}
+                                                <p id="mensaje_patente"></p> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        {{ form.estado_plan }}
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label>Tarifa:</label>
+                                                {{ form.tarifa_plan }}
+                                               
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Fecha de Entrada:</label>
+                                                {{ form.fecha_inicio }}
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Fecha de Salida:</label>
+                                                {{ form.fecha_termino }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Total(pesos):</label>
+                                                {{ form.total }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary btn-flat btn-test">
+                <i class="fas fa-save"></i> Guardar Registro
+            </button>
+            <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+                <i class="fas fa-times"></i> Cancelar
+            </a>
+        </div>
+    </div>
+</form>
+
+<!-- Modal -->
+<div class="modal fade" id="myModalCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form action="post" id="frmCliente" enctype="multipart/form-data">  
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <b> <i class="fas fa-user-plus"></i> Nuevo registro de cliente</b>
+                    </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    {% for field in frmCliente.visible_fields %}
+                    {% if field.label == 'Rut' %}
+                    <div class="form-group">
+                        <label for="">{{ field.label }}</label>
+                        {{ field|add_class:"form-control"|attr:"autocomplete:off" }}
+                        <p id="mensaje_rut"></p> 
+                    </div>
+                    {% else %}
+                    <div class="form-group">
+                        <label for="">{{ field.label }}</label>
+                        {{ field|add_class:"form-control"|attr:"autocomplete:off" }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary btn-block btn-flat"> <i class="fas fa-save"></i> Guardar Cliente</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<script type="application/javascript">
+       {% if form.errors %}
+            var errors = '';
+            {% for field in form %}
+                {% for error in field.errors %}
+                    errors += '{{ error }}\n';
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+            Swal.fire({
+                title: 'Error!',
+                text: errors,
+                icon: 'error'
+            });
+        {% endif %}
+
+            
+
+</script>
+{% endblock %}

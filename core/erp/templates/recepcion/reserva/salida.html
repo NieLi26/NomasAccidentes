@@ -1,0 +1,145 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block head %}
+
+{% block head_list %}
+<script src="https://unpkg.com/htmx.org@1.7.0"></script>
+<script src="{% static 'lib/moment-2.25.3/moment-with-locales.js' %}"></script>
+<script src="{% static 'recepcion/reserva/js/salida.js' %}"></script>
+{% endblock %}
+
+{% endblock %}
+
+{% block content %}
+<div class="card card-default">
+    <div class="card-header">
+        <ul class="navbar-nav">
+            <h5 >
+                <i class="{{icon}}"></i>
+                <strong>{{ title }}</strong>
+            </h3>
+        </ul>
+    </div>
+    <div class="card-body">
+        <div class="tab-content" id="custom-tabs-two-tabContent">
+            <div class="tab-pane fade show active" id="custom-tabs-todas">
+                <div class="row" id="salida_test">
+                    <!-- {% for reserva in reservas %}
+                    {% if reserva.estacionamiento.estado_estacionamiento == "ocupado" and not reserva.estado_reserva == "reserva terminada" %}
+                    <div class="col-lg-2">
+                        <div class="small-box bg-warning">
+                            <div class="inner">
+                                <h3><sup style="font-size: 20px">Estacionamiento</sup>
+                                    {{ reserva.estacionamiento.numero_estacionamiento }}</h3>
+
+                                <p>Categoria: {{ reserva.estacionamiento.tipo_estacionamiento }}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="fas fa-car-side"></i>
+                            </div>
+                            <a href="#" class="small-box-footer btnAddPago" rel="{{ reserva.id }}">
+                                {{ reserva.estacionamiento.estado_estacionamiento | upper }} <i class="fas fa-caret-square-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endfor %} -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- MODAL SALIDA -->
+     <form action="post" id="frmSalida" enctype="multipart/form-data">
+        <div class="modal fade" id="myModalSalida" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">
+                            <b> <i class="fas fa-book"></i> Nuevo registro de Salida</b>
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"> 
+                        <!-- {% for field in frmSalida.visible_fields %}
+                         <div class="form-group">
+                             <label for="">{{ field.label }}</label>
+                             {{ field|add_class:"form-control"|attr:"autocomplete:off" }}
+                         </div>
+                        {% endfor %} -->
+                        <div class="alert bg-olive alert-dismissible" role="alert">
+                            <h5><i class="icon fas fa-info"></i> Información!</h5>
+                            Numero de Patente: <b id="patente_valor"></b><br>
+                            Valor por Minuto: <b id="tarifa_valor"></b><br>
+                            Valor Base: <b>$500 pesos hasta los 30 min</b>
+                          </div>  
+                        <!-- <div class="mb-3">
+                            <label for="">{{ frmSalida.reserva.label }}</label>
+                            {{ frmSalida.reserva|add_class:"form-control"|attr:"autocomplete:off" }}
+                        </div> -->
+                        {{ frmSalida.reserva }}
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="">{{ frmSalida.fecha_entrada.label }}</label>
+                                    {{ frmSalida.fecha_entrada|add_class:"form-control"|attr:"autocomplete:off" }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="">{{ frmSalida.hora_entrada.label }}</label>
+                                    {{ frmSalida.hora_entrada|add_class:"form-control"|attr:"autocomplete:off" }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <label for="">{{ frmSalida.fecha_salida.label }}</label>
+                                    {{ frmSalida.fecha_salida|add_class:"form-control"|attr:"autocomplete:off" }}
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="">{{ frmSalida.hora_salida.label }}</label>
+                                    {{ frmSalida.hora_salida|add_class:"form-control"|attr:"autocomplete:off" }}
+                                </div>
+                            </div>
+                        </div>     
+
+                        <div class="alert alert-light" role="alert">
+                            Tiempo Resguardado: <b id="tiempo_valor"></b>
+                          </div>    
+
+                          <div class="mb-3">
+                              <label for="">{{ frmSalida.total.label }}(pesos)</label>
+                              {{ frmSalida.total|add_class:"form-control"|attr:"autocomplete:off" }}
+                            </div>
+                            <div class="mb-3">
+                                <label for="">{{ frmSalida.numero_boleta.label }}</label>
+                                {{ frmSalida.numero_boleta|add_class:"form-control"|attr:"autocomplete:off" }}
+                            </div>
+                        <div class="mb-3">
+                            <label for="">{{ frmSalida.obs.label }}</label>
+                            {{ frmSalida.obs|add_class:"form-control"|attr:"autocomplete:off" }}
+                        </div>
+                    </div>
+                     <div class="modal-footer">
+                         <button type="submit" class="btn btn-primary btn-flat" > <i class="fas fa-save"></i>
+                             Registrar Salida</button>
+                         <a  class="btn btn-danger btn-flat btnAnularSalida" > <i class="fas fa-times"></i>
+                             Anular Salida</a>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    
+    <script>
+        document.body.addEventListener('htmx:configRequest', e => {
+            e.detail.headers['X-CSRFToken'] = csrftoken;
+        })
+    </script>
+</div>
+{% endblock %}

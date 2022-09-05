@@ -1,0 +1,455 @@
+{% extends 'layout.html' %}
+{% load static %}
+
+{% block head %}
+<!-- Moment  -->
+<script src="{% static 'lib/moment-2.25.3/moment.js' %}"></script>
+<!-- Date Ramge Picker -->
+<script src="{% static 'lib/daterangepicker-3.1/spanish.js' %}"></script>
+<script src="{% static 'lib/daterangepicker-3.1/daterangepicker.js' %}"></script>
+<link rel="stylesheet" href="{% static 'lib/daterangepicker-3.1/daterangepicker.css' %}" />
+
+<!-- HighChart -->
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+<script src="https://code.highcharts.com/modules/data.js"></script>
+<script src="https://code.highcharts.com/modules/drilldown.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+
+
+{% endblock head %}
+
+
+{% block content %}
+<style>
+    .highcharts-figure,
+    .highcharts-data-table table {
+        min-width: 310px;
+        max-width: 800px;
+        margin: 1em auto;
+    }
+
+    #datatable {
+        font-family: Verdana, sans-serif;
+        border-collapse: collapse;
+        border: 1px solid #000;
+        margin: 10px auto;
+        text-align: center;
+        width: 100%;
+        max-width: 500px;
+        background-color: rgb(230, 230, 230);
+    }
+
+    #datatable caption {
+        padding: 1em 0;
+        font-size: 1.2em;
+        color: #555;
+    }
+
+    #datatable th {
+        font-weight: 600;
+        padding: 0.5em;
+    }
+
+    #datatable td,
+    #datatable th,
+    #datatable caption {
+        padding: 0.5em;
+    }
+
+    #datatable thead tr,
+    #datatable tr:nth-child(even) {
+        background: rgb(240, 240, 240);
+    }
+
+    #datatable tr:hover {
+        background: rgb(200, 200, 200);
+    }
+</style>
+
+<div class="row">
+    <div class="col-lg-2">
+        <div class="mb-3">
+            <label>Rango de Fechas:</label>
+            {{ dashboard_form.date_range }}
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-6">
+        <div id="reservas_totales_mes_porcentaje"></div>
+    </div>
+    <div class="col-6">
+        <div id="reservas_totales_mes_numerico"></div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div id="pagos_totales_anual_numerico"></div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div id="reservas_totales_anual_numerico"></div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col-12">
+        <div id="planes_totales_anual_numerico"></div>
+    </div>
+</div>
+
+<!-- <h3>{{ reservas }}</h3> -->
+{% endblock %}
+
+
+{% block javascript %}
+<script>
+    
+    // Reservas
+    const chart2 = Highcharts.chart('reservas_totales_mes_porcentaje', {
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false,
+                type: 'pie'
+            },
+            title: {
+                text: 'Porcentaje Estados de Reservas'
+            },
+            tooltip: {
+                pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            accessibility: {
+                point: {
+                    valueSuffix: '%'
+                }
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %'
+                    }
+                }
+            },
+            // series: [{
+            //     name: 'Reservas',
+            //     colorByPoint: true,
+            //     data: {{ reservas| safe }}
+            // }]
+        });
+
+
+        const chart = Highcharts.chart('reservas_totales_mes_numerico', {
+        // colors: ['#4572A7', '#AA4643', '#89A54E', '#80699B', '#3D96AE', '#DB843D', '#92A8CD', '#A47D7C', '#B5CA92'],
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Total Estados de Reservas'
+        },
+        accessibility: {
+            announceNewData: {
+                enabled: true
+            }
+        },
+        xAxis: {
+            type: 'category'
+        },
+        yAxis: {
+            title: {
+                text: 'Total'
+            },
+            labels: {
+                formatter: function () {
+                    return this.value;
+                }
+            }
+
+        },
+        legend: {
+            enabled: false
+        },
+        plotOptions: {
+            series: {
+                borderWidth: 0,
+                dataLabels: {
+                    enabled: true,
+                    format: '{point.y}'
+                }
+            }
+        },
+
+        tooltip: {
+            headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+            pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y}</b> total<br/>'
+        },
+
+        series: [
+           
+        ],
+    });
+
+    // Pagos, Reservas y Planes
+    let p_anuales = {{ pagos_anuales}}
+
+    Highcharts.chart('pagos_totales_anual_numerico', {
+  chart: {
+    type: 'area'
+  },
+  title: {
+    text: 'Pagos Totales Mensuales *'
+  },
+  tooltip: {
+            pointFormat: '{series.name}: <b>${point.y:,0f} pesos</b>'
+        },
+  legend: {
+    layout: 'vertical',
+    align: 'left',
+    verticalAlign: 'top',
+    x: 100,
+    y: 70,
+    floating: true,
+    borderWidth: 1,
+    backgroundColor:
+      Highcharts.defaultOptions.legend.backgroundColor || '#FFFFFF'
+  },
+  xAxis: {
+    categories: [
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+        ]
+  },
+  yAxis: {
+    title: {
+      text: 'Montos'
+    }
+  },
+  plotOptions: {
+    area: {
+      fillOpacity: 0.5
+    }
+  },
+  credits: {
+    enabled: false
+  },
+  series: [{
+    name: 'Totales',
+    data: p_anuales
+  }]
+});
+
+    let r_anuales = {{ reservas_anuales | safe }}
+
+    Highcharts.chart('reservas_totales_anual_numerico', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Reservas Totales Mensuales'
+    },
+    xAxis: {
+        categories:[
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+        text: 'Reservas'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+        '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+        pointPadding: 0.2,
+        borderWidth: 0
+        }
+    },
+    series: r_anuales
+    });
+
+
+    let pla_anuales = {{ planes_anuales | safe }}
+
+    Highcharts.chart('planes_totales_anual_numerico', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Planes Totales Mensuales'
+    },
+    xAxis: {
+        categories:[
+        'Enero',
+        'Febrero',
+        'Marzo',
+        'Abril',
+        'Mayo',
+        'Junio',
+        'Julio',
+        'Agosto',
+        'Septiembre',
+        'Octubre',
+        'Noviembre',
+        'Diciembre'
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+        text: 'Planes'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+        '<td style="padding:0"><b>{point.y:.0f}</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+        pointPadding: 0.2,
+        borderWidth: 0
+        }
+    },
+    series: pla_anuales
+    });
+
+
+
+//############################################################################## FILTRO FECHAS #######################################################################################
+
+    // FUNCION
+    var date_range = null;
+    var date_now = new moment().format('YYYY-MM-DD');
+
+    // lo que se genera
+    function generate_report() {
+
+        var parameters = {
+        'action': 'search_report',
+        'start_date': date_now,
+        'end_date': date_now,
+        };
+
+
+        if (date_range !== null) {
+        parameters['start_date'] = date_range.startDate.format('YYYY-MM-DD');
+        parameters['end_date'] = date_range.endDate.format('YYYY-MM-DD');
+        }
+
+        //LIMPIAR GRAFICOS
+        var chart = $('#reservas_totales_mes_numerico').highcharts();
+        var chart2 = $('#reservas_totales_mes_porcentaje').highcharts();
+        var seriesLength = chart.series.length;
+        var seriesLength2 = chart2.series.length;
+        for (var i = seriesLength - 1; i > -1; i--) {
+        chart.series[i].remove();
+        }
+        for (var i = seriesLength2 - 1; i > -1; i--) {
+        chart2.series[i].remove();
+        }
+        this.disabled = true;
+
+        //LLAMADA DE DATOS(ACTIVIDAD)
+        $.ajax({
+        url: window.location.pathname, //window.location.pathname
+        type: 'POST',
+        data: parameters,
+        headers: {
+        'X-CSRFToken': csrftoken
+        },
+        dataType: 'json',
+        }).done(function (data) {
+        if (!data.hasOwnProperty('error')) {
+            console.log(data)
+            chart.addSeries(data);
+            chart2.addSeries(data);
+            return false;
+        }
+        message_error(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+
+        });
+    
+    }
+
+
+    //DATERANGEPICKER(FILTRO FECHA)
+
+    $(function () {
+        $('input[name="date_range"]').daterangepicker({
+        locale: {
+        format: 'YYYY-MM-DD',
+        applyLabel: '<i class="fas fa-chart-pie"></i> Aplicar',
+        cancelLabel: '<i class="fas fa-times"></i> Cancelar',
+        }
+        }).on('apply.daterangepicker', function (ev, picker) {
+        date_range = picker;
+        generate_report();
+        }).on('cancel.daterangepicker', function (ev, picker) {
+        $(this).data('daterangepicker').setStartDate(date_now);
+        $(this).data('daterangepicker').setEndDate(date_now);
+        date_range = picker;
+        generate_report();
+        });
+        generate_report();
+    });
+
+//############################################################################## LLAMAR FUNCIONES #######################################################################################
+
+
+    // $(function(){
+    //     get_reserva_mes();
+    // });
+
+
+
+</script>
+
+{% endblock javascript %}

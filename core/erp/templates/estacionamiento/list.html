@@ -1,0 +1,26 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="{% static 'estacionamiento/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 25%;">Nro</th>
+    <th scope="col" style="width: 25%;">Tipo</th>
+    <!-- <th scope="col" style="width: 20%;">Observación</th> -->
+    <th scope="col" style="width: 25%;">Estado</th>
+    <th scope="col" style="width: 25%;">Opciones</th>
+</tr>
+
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+{% endblock %}

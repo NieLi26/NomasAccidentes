@@ -1,0 +1,558 @@
+[
+{
+  "model": "erp.estacionamiento",
+  "pk": 1,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 1,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 2,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 2,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 3,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 3,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 4,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 4,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 5,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 5,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 6,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 6,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 7,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 7,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 8,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 8,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 9,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 9,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 10,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 10,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 11,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 11,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 12,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 12,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 13,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 13,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 14,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 14,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 15,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 15,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 16,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 16,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 17,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 17,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 18,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 18,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 19,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 19,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 20,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 20,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 21,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 21,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 22,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 22,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 23,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 23,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 24,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 24,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 25,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 25,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 26,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 26,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 27,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 27,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 28,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 28,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 29,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 29,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 30,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 30,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 31,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 31,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 32,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 32,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 33,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 33,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 34,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 34,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 35,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 35,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 36,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 36,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 37,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 37,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 38,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 38,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 39,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 39,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.estacionamiento",
+  "pk": 40,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "numero_estacionamiento": 40,
+    "estado_estacionamiento": "disponible",
+    "tipo_estacionamiento": "normal"
+  }
+},
+{
+  "model": "erp.tarifa",
+  "pk": 1,
+  "fields": {
+    "state": true,
+    "created_date": "2022-06-18",
+    "modified_date": "2022-06-18",
+    "deleted_date": "2022-06-18",
+    "nombre": "Normal",
+    "precio": 20
+  }
+},
+{
+  "model": "erp.tarifaplan",
+  "pk": 1,
+  "fields": {
+    "state": true,
+    "created_date": "2022-07-02",
+    "modified_date": "2022-07-02",
+    "deleted_date": "2022-07-02",
+    "nombre": "Mensual",
+    "precio": 0
+  }
+},
+{
+  "model": "erp.tarifaplan",
+  "pk": 2,
+  "fields": {
+    "state": true,
+    "created_date": "2022-07-02",
+    "modified_date": "2022-07-02",
+    "deleted_date": "2022-07-02",
+    "nombre": "Semanal",
+    "precio": 0
+  }
+}
+]

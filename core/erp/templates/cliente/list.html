@@ -1,0 +1,30 @@
+{% extends 'list.html' %}
+{% load static %}
+{% block head_list %}
+<script src="{% static 'cliente/js/list.js' %}"></script>
+{% endblock %}
+
+{% block columns %}
+<tr>
+    <th scope="col" style="width: 10%;">Nro</th>
+    <th scope="col" style="width: 10%;">nombre</th>
+    <th scope="col" style="width: 10%;">apellido</th>
+    <th scope="col" style="width: 10%;">rut</th>
+    <th scope="col" style="width: 15%;">razon_social</th>
+    <th scope="col" style="width: 15%;">direccion</th>
+    <th scope="col" style="width: 10%;">telefono</th>
+    <th scope="col" style="width: 10%;">mail</th>
+    <th scope="col" style="width: 10%;">Opciones</th>
+</tr>
+
+{% endblock %}
+
+{% block rows %}
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+{% endblock %}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+{% load static %}
+{% load humanize %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ticket Termino Plan</title>
+    <style>
+
+    @page {
+            width: 58mm;
+            height: 100mm;
+            margin: 0;
+            paddding: 5px 10px;
+        }
+
+        body {
+            font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+            padding: 0;
+            margin: 0;
+            font-size: 8px;
+            color: black !important;
+        }
+ 
+
+        p {
+            font-size: 5px;
+        }
+
+        .content {
+            width: 58mm;
+            height: 100mm;
+            padding: 10px;
+        }
+
+        .name-company {
+            /* margin-top: 5px; */
+            font-size: 13px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-align: center;
+            padding: 0;
+            /* justify-content: center; 
+            padding: 0 10px; */
+        }
+
+        
+        .border-dotted {
+            border-top-style: dotted;
+            border-bottom-style: dotted;
+        }
+
+        .ruc {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: center;
+            margin-bottom: 5px;
+            padding: 0;
+            /* justify-content: center;
+            padding: 0 10px; */
+        }
+
+        .client {
+            font-size: 11px;
+            margin-top: 0;
+            padding-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .verificacion {
+            font-size: 11px;
+            margin-top: 0;
+            padding-top: 0;
+            margin-bottom: 5px;
+        }
+
+        .footer {
+            font-size: 9px;
+            margin-top: 0;
+            padding-top: 0;
+            margin-bottom: 5px;
+        }
+
+
+        .img-logo {
+            margin-top: 5px;
+            width: 20px;
+            height: 20px;
+            margin-bottom: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+
+    <div class="content">
+    
+        <center>
+          <h1 class="name-company">ticket<br> termino plan estacionamiento</h1>
+            <p class="ruc border-dotted text-center">
+            comercial c & m spa <br>
+            manuel mont 140 - lautaro.<br>
+            rut: 77.585.694-7<br>
+            fono: +56968330602
+            </p>
+        </center>
+          
+              <p class="client"> 
+                <b>NO. Ticket:</b> {{ plan.id }}<br>
+                <b>NO. Estacionamiento:</b> {{ plan.estacionamiento.numero_estacionamiento }}<br>
+                <b>Patente:</b> {{ plan.patente }}<br>
+                <b>Fecha Inicio:</b> {{ plan.fecha_inicio|date:'c' }}<br>
+                <b>Fecha Termino:</b> {{ plan.fecha_termino|date:'c' }}<br>
+                <b>Tarifa:</b> ${{ plan.tarifa_plan.precio|intcomma }} pesos<br>
+                <b>Total:</b> ${{ plan.total|intcomma }} pesos<br>
+
+              </p>
+
+          <br>
+          <center>
+          <p class="text-center border-dotted p-1 footer">
+            <b>Muchas gracias por confiar en nosotros.<br>
+              Que tenga excelente día.</b>
+          </p>
+          </center>
+      </div>
+    
+</body>
+</html>
